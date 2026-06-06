@@ -1,7 +1,8 @@
 import { useState, useContext } from "react";
 import { AuthContext } from "../contexts/AuthContext";
-import { useNavigate } from "react-router-dom";
-import  BtnVolver  from "../components/BtnInicio";
+import { useNavigate, Link } from "react-router-dom";
+import BtnVolver from "../components/BtnInicio";
+import GoogleLoginButton from "../components/GoogleLoginButton";
 
 export default function UserLogin() {
     const [email, setEmail] = useState("");
@@ -54,8 +55,26 @@ export default function UserLogin() {
                     type="submit"
                     className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
                 >
-                    Iniciar Sesión
+                    Iniciar Sesion
                 </button>
+
+                <div className="relative my-5">
+                    <div className="absolute inset-0 flex items-center">
+                        <div className="w-full border-t border-gray-300"></div>
+                    </div>
+                    <div className="relative flex justify-center text-sm">
+                        <span className="px-2 bg-white text-gray-500">o</span>
+                    </div>
+                </div>
+
+                <GoogleLoginButton />
+
+                <p className="mt-5 text-center text-sm text-gray-600">
+                    No tienes cuenta?{" "}
+                    <Link to="/register" className="text-blue-600 hover:underline">
+                        Registrate
+                    </Link>
+                </p>
                 <BtnVolver />
             </form>
         </div>

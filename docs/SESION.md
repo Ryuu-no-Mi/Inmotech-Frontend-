@@ -15,6 +15,31 @@
 - **Hito actual**: Fase 0 completada - Documentacion inicial
 - **Proximo paso**: Iniciar Fase 1 (Google OAuth) - Backend primero, luego frontend
 
+### SESION #002
+- **Fecha**: 2025-06-06
+- **Objetivo**: Fase 1 - Google OAuth (Frontend)
+- **Resultado**:
+  - Creado `OAuth2Callback.jsx` (pagina que recibe token del backend tras login Google)
+  - Creado `GoogleLoginButton.jsx` (componente con logo Google que redirige al backend)
+  - `AuthContext.jsx` modificado con metodo `loginWithGoogle()`
+  - `UserLogin.jsx` actualizado con boton Google + divisor "o"
+  - `App.jsx` con ruta `/oauth2/callback`
+  - Fase 1 Frontend completada
+- **Hito actual**: Fase 1 COMPLETADA (backend + frontend)
+- **Proximo paso**: Fase 2 - Limites de suscripcion
+
+### SESION #003 (paralela - backend)
+- **Fecha**: 2025-06-06
+- **Objetivo**: Fase 1 - Google OAuth (Backend)
+- **Resultado**:
+  - pom.xml: anadido `spring-boot-starter-oauth2-client`
+  - Creado enum `AuthProvider` (LOCAL, GOOGLE)
+  - Modificado `Usuario` con campos `provider`, `providerId`
+  - Creados `CustomOAuth2UserService` y `OAuth2AuthenticationSuccessHandler`
+  - `SecurityConfig` actualizado con `oauth2Login()`
+  - Merge squash a main
+- **Hito actual**: Fase 1 Backend COMPLETADA
+
 ---
 
 ## Stack Actual
