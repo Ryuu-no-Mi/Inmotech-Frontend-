@@ -19,10 +19,10 @@
 
 | # | Tarea | Estado |
 |---|---|---|
-| 2.1 | Crear pagina `/planes` con comparativa Gratis vs Premium | PENDIENTE |
-| 2.2 | Mostrar contador "X/Y propiedades" en `DashboardUser` | PENDIENTE |
-| 2.3 | Bloquear boton "Publicar propiedad" al alcanzar limite gratuito | PENDIENTE |
-| 2.4 | Redirigir a `/planes` desde el aviso de limite | PENDIENTE |
+| 2.1 | Crear pagina `/planes` con comparativa Gratis vs Premium | COMPLETADO |
+| 2.2 | Mostrar contador "X/Y propiedades" en `DashboardUser` | COMPLETADO |
+| 2.3 | Bloquear boton "Publicar propiedad" al alcanzar limite gratuito | COMPLETADO |
+| 2.4 | Redirigir a `/planes` desde el aviso de limite | COMPLETADO |
 
 ---
 
@@ -89,7 +89,7 @@ Cada rama se mergea via PR (squash merge) a `main`.
 | Fase | Estado |
 |---|---|
 | Fase 1 - Google OAuth | COMPLETADO |
-| Fase 2 - Planes y Limites | PENDIENTE |
+| Fase 2 - Planes y Limites | COMPLETADO |
 | Fase 3 - Stripe Checkout | PENDIENTE |
 | Fase 4 - Alertas UI | PENDIENTE |
 | Fase 5 - IA UI | PENDIENTE |
