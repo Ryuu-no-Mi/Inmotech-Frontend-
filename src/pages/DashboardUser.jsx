@@ -10,7 +10,17 @@ export default function DashboardUser() {
     const [agency, setAgency] = useState(null);
     const [favoriteProperties, setFavoriteProperties] = useState([]);
     const [deletingId, setDeletingId] = useState(null);
+    const [limits, setLimits] = useState(null);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (token) {
+            api.get("/subscription/limits")
+                .then((res) => setLimits(res.data))
+                .catch(() => {});
+        }
+    }, []);
 
     useEffect(() => {
         if (user?.idAgencia) {
@@ -138,6 +148,51 @@ export default function DashboardUser() {
                         className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition mt-2"
                     >
                         Eliminar cuenta
+                    </button>
+                </div>
+            </div>
+
+            {/* Suscripcion y limites */}
+            <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+                <div className="flex items-center justify-between">
+                    <div>
+                        <h2 className="text-xl font-semibold text-gray-800 mb-2">
+                            Mi suscripcion
+                        </h2>
+                        {limits ? (
+                            <div className="space-y-1">
+                                <p className="text-sm text-gray-600">
+                                    Plan: <strong>{limits.planNombre}</strong>
+                                    {limits.esPremium && (
+                                        <span className="ml-2 text-xs bg-yellow-200 text-yellow-800 px-2 py-0.5 rounded-full">
+                                            PREMIUM
+                                        </span>
+                                    )}
+                                </p>
+                                <p className="text-sm text-gray-600">
+                                    Propiedades: {limits.propiedadesActuales} /{" "}
+                                    {limits.limiteMaximo === 2147483647 ? "∞" : limits.limiteMaximo}
+                                </p>
+                                {!limits.esPremium && limits.propiedadesRestantes > 0 && (
+                                    <p className="text-sm text-green-600">
+                                        Te quedan {limits.propiedadesRestantes} propiedades por publicar
+                                    </p>
+                                )}
+                                {!limits.esPremium && limits.propiedadesRestantes <= 0 && (
+                                    <p className="text-sm text-red-600 font-semibold">
+                                        Has alcanzado el limite. Actualiza tu plan para seguir publicando.
+                                    </p>
+                                )}
+                            </div>
+                        ) : (
+                            <p className="text-sm text-gray-400">Cargando...</p>
+                        )}
+                    </div>
+                    <button
+                        onClick={() => navigate("/planes")}
+                        className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition text-sm"
+                    >
+                        {limits?.esPremium ? "Gestionar plan" : "Mejorar plan"}
                     </button>
                 </div>
             </div>

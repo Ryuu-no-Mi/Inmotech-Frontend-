@@ -18,6 +18,7 @@ import DashboardUser from './pages/DashboardUser'
 import CreateAgency from "./components/CreateAgency"; 
 import CreateProperty from './components/CreateProperty'
 import ComingSoonPage from './pages/ComingSoonPage'
+import Planes from './pages/Planes'
 import AgencyDetail from './pages/AgencyDetail'
 import EditProperty from './components/EditProperty'
 import EditUser from './components/EditUser'
@@ -46,6 +47,7 @@ function App() {
               <Route path="/edit-user" element={<EditUser />} />
               <Route path="/delete-user" element={<DeleteUser />} />
               <Route path="/oauth2/callback" element={<OAuth2Callback />} />
+              <Route path="/planes" element={<Planes />} />
           </Routes>
       </AuthProvider>
   );
