@@ -8,10 +8,10 @@
 
 | # | Tarea | Estado |
 |---|---|---|
-| 1.1 | Instalar `@react-oauth/google` | PENDIENTE |
-| 1.2 | Crear componente `GoogleLoginButton` | PENDIENTE |
-| 1.3 | Modificar `AuthContext.jsx` para soportar login email + Google OAuth | PENDIENTE |
-| 1.4 | Anadir boton "Continuar con Google" en `UserLogin.jsx` | PENDIENTE |
+| 1.1 | Instalar `@react-oauth/google` | COMPLETADO (usando redirect flow sin libreria) |
+| 1.2 | Crear componente `GoogleLoginButton` | COMPLETADO |
+| 1.3 | Modificar `AuthContext.jsx` para soportar login email + Google OAuth | COMPLETADO |
+| 1.4 | Anadir boton "Continuar con Google" en `UserLogin.jsx` | COMPLETADO |
 
 ---
 
@@ -88,7 +88,7 @@ Cada rama se mergea via PR (squash merge) a `main`.
 
 | Fase | Estado |
 |---|---|
-| Fase 1 - Google OAuth | PENDIENTE |
+| Fase 1 - Google OAuth | COMPLETADO |
 | Fase 2 - Planes y Limites | PENDIENTE |
 | Fase 3 - Stripe Checkout | PENDIENTE |
 | Fase 4 - Alertas UI | PENDIENTE |

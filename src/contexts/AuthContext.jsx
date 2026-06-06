@@ -114,6 +114,45 @@ export function AuthProvider({ children }) {
         }
     };
 
+    const loginWithGoogle = async (jwt, email, userId) => {
+        if (!jwt) throw new Error("Token no recibido de Google");
+
+        localStorage.setItem("token", jwt);
+        setToken(jwt);
+
+        try {
+            const res = await api.get("/user/me");
+            const me = res.data;
+
+            setUser({
+                id: me.id,
+                nombre: me.nombre,
+                apellido: me.apellido,
+                email: me.email,
+                telefono: me.telefono,
+                fechaNacimiento: me.fechaNacimiento,
+                fechaRegistro: me.fechaRegistro,
+                idAgencia: me.idAgencia,
+                imagenUrl: me.imagenUrl,
+            });
+
+            await loadUserData(me.id);
+        } catch (err) {
+            console.error("Error cargando datos tras Google login", err);
+            setUser({
+                id: userId,
+                nombre: null,
+                apellido: null,
+                email: email,
+                telefono: null,
+                fechaNacimiento: null,
+                fechaRegistro: null,
+                idAgencia: null,
+                imagenUrl: null,
+            });
+        }
+    };
+
     // Logout: borra token, email, favoritos y propiedades
     const logout = () => {
         alert("Cerrando sesión");
@@ -183,6 +222,7 @@ export function AuthProvider({ children }) {
                 login,
                 register,
                 logout,
+                loginWithGoogle,
                 reloadUserData: () => loadUserData(user.id),
             }}
         >

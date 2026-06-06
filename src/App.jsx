@@ -22,6 +22,7 @@ import AgencyDetail from './pages/AgencyDetail'
 import EditProperty from './components/EditProperty'
 import EditUser from './components/EditUser'
 import DeleteUser from './components/DeleteUser'
+import OAuth2Callback from './pages/OAuth2Callback'
 
 
 function App() {
@@ -44,6 +45,7 @@ function App() {
               <Route path="*" element={<NotFound />} />
               <Route path="/edit-user" element={<EditUser />} />
               <Route path="/delete-user" element={<DeleteUser />} />
+              <Route path="/oauth2/callback" element={<OAuth2Callback />} />
           </Routes>
       </AuthProvider>
   );
