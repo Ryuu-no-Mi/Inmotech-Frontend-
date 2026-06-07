@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from "../api";
 import { Check, X } from "lucide-react";
+import StripeCheckoutButton from "../components/StripeCheckoutButton";
 
 export default function Planes() {
     const navigate = useNavigate();
@@ -108,8 +109,10 @@ export default function Planes() {
                                 onClick={() => {
                                     if (plan.current) {
                                         navigate("/usuario");
+                                    } else if (plan.highlight) {
+                                        // Premium - Stripe checkout se maneja en el componente
                                     } else {
-                                        navigate("/suscripcion-exito");
+                                        navigate("/usuario");
                                     }
                                 }}
                                 className={`w-full py-3 rounded-xl font-semibold transition ${
@@ -122,6 +125,9 @@ export default function Planes() {
                             >
                                 {plan.current ? "Plan actual" : plan.name === "Premium" ? "Suscribirse" : "Comenzar gratis"}
                             </button>
+                            {plan.highlight && !plan.current && (
+                                <StripeCheckoutButton />
+                            )}
                         </div>
                     ))}
                 </div>
