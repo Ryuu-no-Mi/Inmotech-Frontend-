@@ -75,7 +75,13 @@ export default function CreateProperty() {
             navigate("/usuario");
         } catch (err) {
             console.error("Error al crear propiedad:", err);
-            alert("Error al crear la propiedad: " + err.message);
+            if (err.response?.status === 402) {
+                const data = err.response.data;
+                alert(data.mensaje || "Has alcanzado tu limite de propiedades.");
+                navigate("/planes");
+            } else {
+                alert("Error al crear la propiedad: " + (err.response?.data?.error || err.message));
+            }
         }
     };
     

@@ -19,10 +19,10 @@
 
 | # | Tarea | Estado |
 |---|---|---|
-| 2.1 | Crear pagina `/planes` con comparativa Gratis vs Premium | PENDIENTE |
-| 2.2 | Mostrar contador "X/Y propiedades" en `DashboardUser` | PENDIENTE |
-| 2.3 | Bloquear boton "Publicar propiedad" al alcanzar limite gratuito | PENDIENTE |
-| 2.4 | Redirigir a `/planes` desde el aviso de limite | PENDIENTE |
+| 2.1 | Crear pagina `/planes` con comparativa Gratis vs Premium | COMPLETADO |
+| 2.2 | Mostrar contador "X/Y propiedades" en `DashboardUser` | COMPLETADO |
+| 2.3 | Bloquear boton "Publicar propiedad" al alcanzar limite gratuito | COMPLETADO |
+| 2.4 | Redirigir a `/planes` desde el aviso de limite | COMPLETADO |
 
 ---
 
