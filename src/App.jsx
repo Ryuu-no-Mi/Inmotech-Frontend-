@@ -19,6 +19,8 @@ import CreateAgency from "./components/CreateAgency";
 import CreateProperty from './components/CreateProperty'
 import ComingSoonPage from './pages/ComingSoonPage'
 import Planes from './pages/Planes'
+import SuscripcionExito from './pages/SuscripcionExito'
+import SuscripcionCancelada from './pages/SuscripcionCancelada'
 import AgencyDetail from './pages/AgencyDetail'
 import EditProperty from './components/EditProperty'
 import EditUser from './components/EditUser'
@@ -48,6 +50,8 @@ function App() {
               <Route path="/delete-user" element={<DeleteUser />} />
               <Route path="/oauth2/callback" element={<OAuth2Callback />} />
               <Route path="/planes" element={<Planes />} />
+              <Route path="/suscripcion-exito" element={<SuscripcionExito />} />
+              <Route path="/suscripcion-cancelada" element={<SuscripcionCancelada />} />
           </Routes>
       </AuthProvider>
   );
