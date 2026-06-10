@@ -11,8 +11,8 @@ export default function StripeCheckoutButton({ onSuccess, onCancel }) {
             const res = await api.post("/stripe/create-checkout-session", {}, {
                 headers: { Authorization: `Bearer ${token}` }
             });
-            const sessionId = res.data.sessionId;
-            window.location.href = `https://checkout.stripe.com/pay/${sessionId}`;
+            const clientSecret = res.data.clientSecret;
+            window.location.href = `https://checkout.stripe.com/pay/${clientSecret}`;
         } catch (err) {
             console.error("Error creando sesion de pago:", err);
             alert("Error al iniciar el pago. Intentalo de nuevo.");
