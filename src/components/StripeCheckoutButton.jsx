@@ -1,23 +1,13 @@
 import { useState } from "react";
-import { api } from "../api";
+
+const STRIPE_PAYMENT_LINK = "https://buy.stripe.com/test_dRmfZh2Da9Wd7Ik7PndIA00";
 
 export default function StripeCheckoutButton({ onSuccess, onCancel }) {
     const [loading, setLoading] = useState(false);
 
-    const handleCheckout = async () => {
+    const handleCheckout = () => {
         setLoading(true);
-        try {
-            const token = localStorage.getItem("token");
-            const res = await api.post("/stripe/create-checkout-session", {}, {
-                headers: { Authorization: `Bearer ${token}` }
-            });
-            const clientSecret = res.data.clientSecret;
-            window.location.href = `https://checkout.stripe.com/pay/${clientSecret}`;
-        } catch (err) {
-            console.error("Error creando sesion de pago:", err);
-            alert("Error al iniciar el pago. Intentalo de nuevo.");
-            setLoading(false);
-        }
+        window.location.href = STRIPE_PAYMENT_LINK;
     };
 
     return (
