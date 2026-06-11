@@ -301,6 +301,60 @@ export default function DashboardUser() {
                 )}
             </div>
 
+            {/* Propiedades en pausa - para usuarios con suscripcion expirada */}
+            {limits && !limits.esPremium && myProperties.length > 2 && (
+                <div className="bg-gray-100 rounded-lg shadow-md p-6 mt-6">
+                    <div className="flex items-center justify-between mb-4">
+                        <h2 className="text-xl font-semibold text-gray-600">
+                            Propiedades en pausa
+                        </h2>
+                        <span className="text-sm text-gray-500 bg-gray-200 px-3 py-1 rounded-full">
+                            {myProperties.length - 2} propiedades
+                        </span>
+                    </div>
+                    <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
+                        <p className="text-sm text-yellow-800">
+                            Renueva tu plan para activar estas propiedades
+                        </p>
+                    </div>
+                    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 opacity-60 grayscale">
+                        {myProperties.slice(2).map((prop) => (
+                            <div
+                                key={prop.id}
+                                className="border border-gray-300 rounded shadow p-4 bg-gray-200 flex flex-col justify-between"
+                            >
+                                <div
+                                    className="cursor-pointer"
+                                    onClick={() =>
+                                        navigate(`/property/${prop.id}`)
+                                    }
+                                >
+                                    <h3 className="text-lg font-bold text-gray-500">
+                                        {prop.titulo}
+                                    </h3>
+                                    <p className="text-sm text-gray-400">
+                                        {prop.direccion}, {prop.ciudad}
+                                    </p>
+                                    <p className="text-gray-400 font-semibold mt-2">
+                                        €{prop.precio.toLocaleString()}
+                                    </p>
+                                </div>
+                                <div className="flex items-center gap-2 mt-4">
+                                    <span className="text-gray-400 text-sm">🔒</span>
+                                    <span className="text-xs text-gray-400">Pausada</span>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                    <button
+                        onClick={() => navigate("/planes")}
+                        className="mt-4 w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition"
+                    >
+                        Renovar ahora
+                    </button>
+                </div>
+            )}
+
             <BtnVolver />
         </div>
     );
