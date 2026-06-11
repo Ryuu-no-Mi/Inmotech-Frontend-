@@ -21,11 +21,16 @@ export default function EditProfile() {
     const [showPassword, setShowPassword] = useState(false);
 
     useEffect(() => {
-
-        console.log("fecha nac", user.fechaNacimiento);
         if (user) {
-            const [dd, mm, yyyy] = user.fechaNacimiento.split("/");
-            const isoDate = `${yyyy}/${mm}/${dd}`;
+            let isoDate = "";
+            if (user.fechaNacimiento) {
+                if (user.fechaNacimiento.includes("/")) {
+                    const [dd, mm, yyyy] = user.fechaNacimiento.split("/");
+                    isoDate = `${yyyy}/${mm}/${dd}`;
+                } else if (user.fechaNacimiento.includes("-")) {
+                    isoDate = user.fechaNacimiento;
+                }
+            }
 
             setData({
                 nombre: user.nombre || "",
@@ -45,8 +50,11 @@ export default function EditProfile() {
         e.preventDefault();
 
         try {
-            const [yyyy, mm, dd] = data.fechaNacimiento.split("-");
-            const fechaFormateada = `${dd}/${mm}/${yyyy}`;
+            let fechaFormateada = "";
+            if (data.fechaNacimiento) {
+                const [yyyy, mm, dd] = data.fechaNacimiento.split("-");
+                fechaFormateada = `${dd}/${mm}/${yyyy}`;
+            }
 
       
 
