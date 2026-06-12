@@ -1,9 +1,8 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { api, publicApi, BASE_URL_IMG, buildSearchParams, parsePaginatedResponse } from "../api";
 import SearchBar from "./SearchBar";
 import Pagination from "./common/Pagination";
-import { usePagination } from "../hooks/usePagination";
 import { Heart, HeartOff } from "lucide-react";
 
 export default function PropertyList({ userId = null }) {
@@ -11,75 +10,119 @@ export default function PropertyList({ userId = null }) {
     const [favorites, setFavorites] = useState([]);
     const [facetas, setFacetas] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [loadingFacetas, setLoadingFacetas] = useState(true);
     const [totalElements, setTotalElements] = useState(0);
     const [currentFilters, setCurrentFilters] = useState({});
+    const [page, setPage] = useState(0);
+    const [totalPages, setTotalPages] = useState(0);
     const navigate = useNavigate();
 
-    const pagination = usePagination();
+    const requestControllerRef = useRef(null);
+    const facetasControllerRef = useRef(null);
 
     const DEFAULT_IMAGE_URL =
         "https://static.vecteezy.com/system/resources/previews/022/059/000/non_2x/no-image-available-icon-vector.jpg";
 
     const fetchFacetas = useCallback(async () => {
+        if (facetasControllerRef.current) {
+            facetasControllerRef.current.abort();
+        }
+        facetasControllerRef.current = new AbortController();
+
+        setLoadingFacetas(true);
+        console.log("[PropertyList] GET /property/facetas");
+
         try {
-            const res = await publicApi.get("/property/facetas");
+            const res = await publicApi.get("/property/facetas", {
+                signal: facetasControllerRef.current.signal
+            });
+            console.log("[PropertyList] facetas response:", res.data);
             setFacetas(res.data);
         } catch (err) {
-            console.error("Error fetching facetas:", err);
+            if (err.code === "ERR_CANCELED") {
+                console.log("[PropertyList] facetas request cancelled");
+            } else {
+                console.error("[PropertyList] facetas error:", err);
+            }
+        } finally {
+            setLoadingFacetas(false);
         }
     }, []);
 
-    const fetchProperties = useCallback(async (page = 0, filters = {}) => {
+    const fetchProperties = useCallback(async (pageNum = 0, filters = {}) => {
+        if (requestControllerRef.current) {
+            requestControllerRef.current.abort();
+        }
+        requestControllerRef.current = new AbortController();
+
         setLoading(true);
+
+        const hasFilters = Object.keys(filters).some(k => filters[k]);
+        const url = hasFilters ? "/property/buscar" : "/property";
+        const params = { page: pageNum, size: 12, ...buildSearchParams(filters) };
+
+        console.log(`[PropertyList] GET ${url}`, params);
+
         try {
-            let res;
-            if (Object.keys(filters).some(k => filters[k])) {
-                const params = { ...buildSearchParams(filters), page, size: 12 };
-                res = await publicApi.get("/property/buscar", { params });
-            } else {
-                res = await publicApi.get("/property", { params: { page, size: 12 } });
-            }
+            const res = await publicApi.get(url, {
+                params,
+                signal: requestControllerRef.current.signal
+            });
+            console.log(`[PropertyList] ${url} response:`, res.data);
+
             const parsed = parsePaginatedResponse(res);
+            console.log("[PropertyList] parsed:", parsed);
+
             setProperties(parsed.data);
-            pagination.setTotalPages(parsed.totalPages);
-            pagination.setTotalElements(parsed.totalElements);
+            setTotalPages(parsed.totalPages);
             setTotalElements(parsed.totalElements);
+            setPage(parsed.page);
         } catch (err) {
-            console.error("Error fetching properties:", err);
+            if (err.code === "ERR_CANCELED") {
+                console.log("[PropertyList] properties request cancelled");
+            } else {
+                console.error("[PropertyList] properties error:", err);
+            }
         } finally {
             setLoading(false);
         }
-    }, [pagination]);
+    }, []);
 
     useEffect(() => {
+        console.log("[PropertyList] Mount - fetching facetas and properties");
         fetchFacetas();
         fetchProperties(0, {});
     }, [fetchFacetas, fetchProperties]);
 
     useEffect(() => {
         if (userId) {
+            console.log(`[PropertyList] fetching favorites for userId=${userId}`);
             api.get(`/favourite/${userId}`)
                 .then((res) => {
+                    console.log("[PropertyList] favorites response:", res.data);
                     const favIds = res.data.map((fav) => fav.propiedadId);
                     setFavorites(favIds);
                 })
-                .catch((err) => console.error("Error fetching favourites:", err));
+                .catch((err) => console.error("[PropertyList] favorites error:", err));
         }
     }, [userId]);
 
     const handleSearch = (filters) => {
+        console.log("[PropertyList] handleSearch:", filters);
         setCurrentFilters(filters);
         fetchProperties(0, filters);
     };
 
-    const handlePageChange = (page) => {
-        fetchProperties(page, currentFilters);
+    const handlePageChange = (newPage) => {
+        console.log("[PropertyList] handlePageChange:", newPage, "filters:", currentFilters);
+        fetchProperties(newPage, currentFilters);
         window.scrollTo({ top: 0, behavior: "smooth" });
     };
 
     const handleLike = async (propertyId) => {
         if (!userId) return;
         const isFav = favorites.includes(propertyId);
+        console.log(`[PropertyList] handleLike propertyId=${propertyId}, isFav=${isFav}`);
         try {
             if (isFav) {
                 await api.delete(`/favourite/${userId}/${propertyId}`);
@@ -89,15 +132,17 @@ export default function PropertyList({ userId = null }) {
                 setFavorites((prev) => [...prev, propertyId]);
             }
         } catch (err) {
-            console.error("Error updating favourite:", err);
+            console.error("[PropertyList] handleLike error:", err);
         }
     };
+
+    const isLoading = loading || loadingFacetas;
 
     return (
         <div className="p-4">
             <SearchBar onSearch={handleSearch} facetas={facetas} currentFilters={currentFilters} />
 
-            {loading ? (
+            {isLoading ? (
                 <div className="flex justify-center items-center py-20">
                     <div className="text-gray-500">Cargando propiedades...</div>
                 </div>
@@ -160,11 +205,11 @@ export default function PropertyList({ userId = null }) {
                         ))}
                     </div>
 
-                    {pagination.totalPages > 1 && (
+                    {totalPages > 1 && (
                         <div className="mt-6">
                             <Pagination
-                                page={pagination.page}
-                                totalPages={pagination.totalPages}
+                                page={page}
+                                totalPages={totalPages}
                                 onPageChange={handlePageChange}
                             />
                         </div>
