@@ -39,6 +39,7 @@ export const buildSearchParams = (filters) => {
     if (filters.ciudad) params.ciudad = filters.ciudad;
     if (filters.provincia) params.provincia = filters.provincia;
     if (filters.tipo) params.tipo = filters.tipo;
+    if (filters.tipoAgrupado) params.tipo = filters.tipoAgrupado;
     if (filters.precioMin) params.precioMin = filters.precioMin;
     if (filters.precioMax) params.precioMax = filters.precioMax;
     if (filters.superficieMin) params.superficieMin = filters.superficieMin;

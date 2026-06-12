@@ -116,11 +116,11 @@ export default function PropertyList({ userId = null }) {
         fetchFacetas(filters);
     };
 
-    const handlePageChange = (newPage) => {
+    const handlePageChange = useCallback((newPage) => {
         console.log("[PropertyList] handlePageChange:", newPage, "filters:", currentFilters);
         fetchProperties(newPage, currentFilters);
         window.scrollTo({ top: 0, behavior: "smooth" });
-    };
+    }, [currentFilters, fetchProperties]);
 
     const handleLike = async (propertyId) => {
         if (!userId) return;
