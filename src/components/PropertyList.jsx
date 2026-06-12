@@ -23,17 +23,19 @@ export default function PropertyList({ userId = null }) {
     const DEFAULT_IMAGE_URL =
         "https://static.vecteezy.com/system/resources/previews/022/059/000/non_2x/no-image-available-icon-vector.jpg";
 
-    const fetchFacetas = useCallback(async () => {
+    const fetchFacetas = useCallback(async (filters = {}) => {
         if (facetasControllerRef.current) {
             facetasControllerRef.current.abort();
         }
         facetasControllerRef.current = new AbortController();
 
         setLoadingFacetas(true);
-        console.log("[PropertyList] GET /property/facetas");
+        const params = buildSearchParams(filters);
+        console.log("[PropertyList] GET /property/facetas", params);
 
         try {
             const res = await publicApi.get("/property/facetas", {
+                params,
                 signal: facetasControllerRef.current.signal
             });
             console.log("[PropertyList] facetas response:", res.data);
@@ -57,7 +59,7 @@ export default function PropertyList({ userId = null }) {
 
         setLoading(true);
 
-        const hasFilters = Object.keys(filters).some(k => filters[k]);
+        const hasFilters = Object.keys(filters).some(k => filters[k] && filters[k] !== "");
         const url = hasFilters ? "/property/buscar" : "/property";
         const params = { page: pageNum, size: 12, ...buildSearchParams(filters) };
 
@@ -89,8 +91,8 @@ export default function PropertyList({ userId = null }) {
     }, []);
 
     useEffect(() => {
-        console.log("[PropertyList] Mount - fetching facetas and properties");
-        fetchFacetas();
+        console.log("[PropertyList] Mount - fetching initial data");
+        fetchFacetas({});
         fetchProperties(0, {});
     }, [fetchFacetas, fetchProperties]);
 
@@ -111,6 +113,7 @@ export default function PropertyList({ userId = null }) {
         console.log("[PropertyList] handleSearch:", filters);
         setCurrentFilters(filters);
         fetchProperties(0, filters);
+        fetchFacetas(filters);
     };
 
     const handlePageChange = (newPage) => {
@@ -176,6 +179,15 @@ export default function PropertyList({ userId = null }) {
                                         )}
                                     </button>
                                 )}
+                                <div className="absolute top-2 left-2 z-10">
+                                    <span className={`text-xs px-2 py-1 rounded font-semibold ${
+                                        prop.operacion === "ALQUILER"
+                                            ? "bg-green-600 text-white"
+                                            : "bg-indigo-600 text-white"
+                                    }`}>
+                                        {prop.operacion}
+                                    </span>
+                                </div>
                                 <img
                                     src={
                                         prop.imagenes && prop.imagenes.length > 0 && prop.imagenes[0]?.url
@@ -198,7 +210,7 @@ export default function PropertyList({ userId = null }) {
                                         <span className="font-medium">{prop.provincia}</span>, {prop.ciudad}
                                     </p>
                                     <p className="text-indigo-600 font-bold text-2xl mt-2">
-                                        {prop.precio.toLocaleString()} €
+                                        {prop.precio.toLocaleString()} Eur
                                     </p>
                                 </div>
                             </div>
