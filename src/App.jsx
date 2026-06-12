@@ -49,9 +49,6 @@ function App() {
               <Route path="/edit-user" element={<EditUser />} />
               <Route path="/delete-user" element={<DeleteUser />} />
               <Route path="/oauth2/callback" element={<OAuth2Callback />} />
-              <Route path="/planes" element={<Planes />} />
-              <Route path="/suscripcion-exito" element={<SuscripcionExito />} />
-              <Route path="/suscripcion-cancelada" element={<SuscripcionCancelada />} />
           </Routes>
       </AuthProvider>
   );
