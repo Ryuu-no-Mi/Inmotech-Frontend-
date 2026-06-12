@@ -34,6 +34,7 @@ export const parsePaginatedResponse = (response) => {
 
 export const buildSearchParams = (filters) => {
     const params = {};
+    if (filters.operacion) params.operacion = filters.operacion;
     if (filters.texto) params.texto = filters.texto;
     if (filters.ciudad) params.ciudad = filters.ciudad;
     if (filters.provincia) params.provincia = filters.provincia;
