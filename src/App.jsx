@@ -1,6 +1,6 @@
 import './App.css'
 import React from 'react'
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, Navigate } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import SearchBar from './components/SearchBar'
 import PropertyList from './components/PropertyList'
@@ -9,7 +9,6 @@ import Footer from './components/Footer'
 import Favoritos from './components/Favoritos'
 import RegisterUser from './pages/RegisterUser'
 import UserLogin from './pages/UserLogin'
-import { BrowserRouter } from 'react-router-dom'
 import Home from './pages/Home'
 import Property from './pages/Property'
 import { AuthProvider } from './contexts/AuthContext'
@@ -21,15 +20,16 @@ import ComingSoonPage from './pages/ComingSoonPage'
 import Planes from './pages/Planes'
 import SuscripcionExito from './pages/SuscripcionExito'
 import SuscripcionCancelada from './pages/SuscripcionCancelada'
-import AgencyDetail from './pages/AgencyDetail'
 import EditProperty from './components/EditProperty'
 import EditUser from './components/EditUser'
 import DeleteUser from './components/DeleteUser'
 import OAuth2Callback from './pages/OAuth2Callback'
-
+import UserProfile from './pages/UserProfile'
+import AgencyDashboard from './pages/AgencyDashboard'
+import AgencyPublic from './pages/AgencyPublic'
+import AgentPublic from './pages/AgentPublic'
 
 function App() {
-
   return (
       <AuthProvider>
           <Routes>
@@ -39,16 +39,29 @@ function App() {
               <Route path="/property/:id/edit" element={<EditProperty />} />
               <Route path="/login" element={<UserLogin />} />
               <Route path="/register" element={<RegisterUser />} />
-              <Route path="/usuario" element={<DashboardUser />} />
+              
+              <Route path="/usuario" element={<Navigate to="/my-profile" replace />} />
+              <Route path="/my-profile" element={<UserProfile />} />
+              <Route path="/my-profile/favorites" element={<Favoritos />} />
+              <Route path="/my-profile/settings" element={<EditUser />} />
+              
               <Route path="/create-agency" element={<CreateAgency />} />
-              <Route path="/agency/:id?" element={<AgencyDetail />} />
-              <Route path="/detail-agency" element={<AgencyDetail />} />
+              <Route path="/my-agency" element={<AgencyDashboard />} />
+              
+              <Route path="/agency/:id" element={<AgencyPublic />} />
+              <Route path="/detail-agency" element={<Navigate to="/" replace />} />
+              
+              <Route path="/agent/:id" element={<AgentPublic />} />
+              
               <Route path="/coming-soon" element={<ComingSoonPage />} />
               <Route path="/search" element={<SearchBar />} />
               <Route path="*" element={<NotFound />} />
               <Route path="/edit-user" element={<EditUser />} />
               <Route path="/delete-user" element={<DeleteUser />} />
               <Route path="/oauth2/callback" element={<OAuth2Callback />} />
+              <Route path="/planes" element={<Planes />} />
+              <Route path="/suscripcion-exito" element={<SuscripcionExito />} />
+              <Route path="/suscripcion-cancelada" element={<SuscripcionCancelada />} />
           </Routes>
       </AuthProvider>
   );
