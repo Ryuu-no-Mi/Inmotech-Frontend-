@@ -50,6 +50,11 @@ export const parsePaginatedResponse = (response) => {
     };
 };
 
+const TIPO_GRUPO_MAP = {
+    Piso: ["PISO", "ESTUDIO", "DUPLEX", "ATICO", "PENTHOUSE"],
+    Casa: ["CASA", "CHALET", "VILLA"]
+};
+
 export const buildSearchParams = (filters) => {
     const params = {};
     if (filters.operacion) params.operacion = filters.operacion;
@@ -64,8 +69,12 @@ export const buildSearchParams = (filters) => {
     if (filters.superficieMax) params.superficieMax = filters.superficieMax;
     if (filters.tipos && Array.isArray(filters.tipos)) {
         params.tipos = filters.tipos;
-    } else if (filters.tipo) {
+    } else if (filters.tipo && !filters.tipoAgrupado) {
         params.tipo = filters.tipo;
+    }
+    if (filters.tipoAgrupado) {
+        const tipos = TIPO_GRUPO_MAP[filters.tipoAgrupado];
+        if (tipos) params.tipos = tipos;
     }
     return params;
 };
@@ -80,4 +89,4 @@ api.interceptors.request.use(
         return config;
     },
     (error) => Promise.reject(error)
-);   
+);

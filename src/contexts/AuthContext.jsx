@@ -174,6 +174,24 @@ export function AuthProvider({ children }) {
         setMyProperties([]);
     };
 
+    // Toggle favorite: añade o quita de favoritos y actualiza el estado global
+    const toggleFavorite = async (propertyId) => {
+        if (!user?.id) return;
+        const isFav = favorites.includes(propertyId);
+        try {
+            if (isFav) {
+                await api.delete(`/favourite/${user.id}/${propertyId}`);
+                setFavorites((prev) => prev.filter((id) => id !== propertyId));
+            } else {
+                await api.post(`/favourite/${user.id}/${propertyId}`);
+                setFavorites((prev) => [...prev, propertyId]);
+            }
+        } catch (err) {
+            console.error("Error toggling favorite:", err);
+            throw err;
+        }
+    };
+
     useEffect(() => {
         const initializeUser = async () => {
             if (token && !user.id) {
@@ -223,6 +241,7 @@ export function AuthProvider({ children }) {
                 register,
                 logout,
                 loginWithGoogle,
+                toggleFavorite,
                 reloadUserData: () => loadUserData(user.id),
             }}
         >
