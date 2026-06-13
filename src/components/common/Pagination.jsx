@@ -1,6 +1,6 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-export default function Pagination({ page, totalPages, onChange, size = 10 }) {
+export default function Pagination({ page, totalPages, onPageChange }) {
     if (totalPages <= 1) return null;
 
     const pages = [];
@@ -20,7 +20,7 @@ export default function Pagination({ page, totalPages, onChange, size = 10 }) {
     return (
         <div className="flex items-center justify-center gap-2 py-4">
             <button
-                onClick={() => onChange(page - 1)}
+                onClick={() => onPageChange(page - 1)}
                 disabled={page === 0}
                 className="p-2 rounded-lg border hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
             >
@@ -30,7 +30,7 @@ export default function Pagination({ page, totalPages, onChange, size = 10 }) {
             {start > 0 && (
                 <>
                     <button
-                        onClick={() => onChange(0)}
+                        onClick={() => onPageChange(0)}
                         className={`w-10 h-10 rounded-lg border ${page === 0 ? 'bg-indigo-600 text-white' : 'hover:bg-gray-100'}`}
                     >
                         1
@@ -42,7 +42,7 @@ export default function Pagination({ page, totalPages, onChange, size = 10 }) {
             {pages.map((p) => (
                 <button
                     key={p}
-                    onClick={() => onChange(p)}
+                    onClick={() => onPageChange(p)}
                     className={`w-10 h-10 rounded-lg border ${
                         page === p ? 'bg-indigo-600 text-white' : 'hover:bg-gray-100'
                     }`}
@@ -55,7 +55,7 @@ export default function Pagination({ page, totalPages, onChange, size = 10 }) {
                 <>
                     {end < totalPages - 2 && <span className="px-2">...</span>}
                     <button
-                        onClick={() => onChange(totalPages - 1)}
+                        onClick={() => onPageChange(totalPages - 1)}
                         className={`w-10 h-10 rounded-lg border ${page === totalPages - 1 ? 'bg-indigo-600 text-white' : 'hover:bg-gray-100'}`}
                     >
                         {totalPages}
@@ -64,7 +64,7 @@ export default function Pagination({ page, totalPages, onChange, size = 10 }) {
             )}
 
             <button
-                onClick={() => onChange(page + 1)}
+                onClick={() => onPageChange(page + 1)}
                 disabled={page === totalPages - 1}
                 className="p-2 rounded-lg border hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
             >

@@ -10,6 +10,7 @@ export function usePagination(endpoint, { pageSize = 10, sort = "fechaPublicacio
     const [totalElements, setTotalElements] = useState(0);
 
     const fetchData = async (pageNum = 0) => {
+        if (!endpoint) return;
         setLoading(true);
         setError(null);
         try {
@@ -52,6 +53,9 @@ export function usePagination(endpoint, { pageSize = 10, sort = "fechaPublicacio
         totalElements,
         changePage,
         refresh,
+        setPage,
+        setTotalPages,
+        setTotalElements,
         pageSize
     };
 }

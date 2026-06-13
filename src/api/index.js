@@ -32,6 +32,21 @@ export const parsePaginatedResponse = (response) => {
     };
 };
 
+export const buildSearchParams = (filters) => {
+    const params = {};
+    if (filters.operacion) params.operacion = filters.operacion;
+    if (filters.texto) params.texto = filters.texto;
+    if (filters.ciudad) params.ciudad = filters.ciudad;
+    if (filters.provincia) params.provincia = filters.provincia;
+    if (filters.tipo) params.tipo = filters.tipo;
+    if (filters.tipoAgrupado) params.tipo = filters.tipoAgrupado;
+    if (filters.precioMin) params.precioMin = filters.precioMin;
+    if (filters.precioMax) params.precioMax = filters.precioMax;
+    if (filters.superficieMin) params.superficieMin = filters.superficieMin;
+    if (filters.superficieMax) params.superficieMax = filters.superficieMax;
+    return params;
+};
+
 // añadir JWT desde localStorage
 api.interceptors.request.use(
     (config) => {
