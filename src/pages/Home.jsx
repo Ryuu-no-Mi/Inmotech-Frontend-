@@ -47,7 +47,7 @@ export default function Home() {
                 </section>
 
                 <section className="max-w-6xl mx-auto px-4 -mt-10 relative z-10">
-                    <PropertyList userId={user?.id} />
+                    <PropertyList />
                 </section>
 
                 <section className="bg-surface py-16 mt-8">
@@ -59,7 +59,7 @@ export default function Home() {
                             Publica tu anuncio y reach a miles de compradores potenciales
                         </p>
                         <Link
-                            to={user?.id ? "/create-property" : "/login"}
+                            to={user ? "/create-property" : "/login"}
                             className="inline-flex items-center gap-2 bg-primary hover:bg-primary/90 text-white font-semibold px-8 py-4 rounded-lg transition active:scale-[0.98] text-label-md"
                         >
                             Publicar mi anuncio

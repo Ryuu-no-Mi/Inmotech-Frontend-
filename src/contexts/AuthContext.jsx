@@ -223,8 +223,23 @@ export function AuthProvider({ children }) {
                 register,
                 logout,
                 loginWithGoogle,
-                reloadUserData: () => loadUserData(user.id),
-            }}
+toggleFavorite: async (propertyId) => {
+                if (!user?.id) return;
+                const isFav = favorites.includes(propertyId);
+                try {
+                    if (isFav) {
+                        await api.delete(`/favourite/${user.id}/${propertyId}`);
+                    } else {
+                        await api.post(`/favourite/${user.id}/${propertyId}`);
+                    }
+                    const res = await api.get(`/favourite/${user.id}`);
+                    setFavorites((res.data || []).map((f) => f.propiedadId));
+                } catch (err) {
+                    console.error("Error toggling favorite:", err);
+                }
+            },
+            reloadUserData: () => loadUserData(user.id),
+        }}
         >
             {children}
         </AuthContext.Provider>

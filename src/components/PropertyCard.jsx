@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Heart, Bed, Maximize2 } from "lucide-react";
+import { Heart, Bed, Maximize2, Bath, Layers, Car } from "lucide-react";
 import { BASE_URL_IMG } from "../api";
 
 const DEFAULT_IMAGE_URL = "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&q=80";
@@ -76,31 +76,52 @@ export default function PropertyCard({
                 )}
             </div>
 
-            <Link to={`/property/${prop.id}`} className="block p-4">
-                <div className="flex justify-between items-start mb-2">
-                    <h3 className="text-headline-md text-on-surface group-hover:text-primary transition-colors">
-                        {formatPrice(prop.precio)} {prop.operacion === "ALQUILER" ? "€/mes" : "€"}
+            <Link to={`/property/${prop.id}`} className="block p-5">
+                <div className="flex justify-between items-start mb-3">
+                    <h3 className="text-headline-lg font-bold text-primary">
+                        {formatPrice(prop.precio)}
+                        <span className="text-label-lg text-on-surface-variant font-normal ml-1">
+                            {prop.operacion === "ALQUILER" ? "€/mes" : "€"}
+                        </span>
                     </h3>
                 </div>
 
-                <p className="text-body-md text-on-surface-variant mb-1 line-clamp-1">
-                    {prop.direccion}
+                <p className="text-body-lg text-on-surface font-medium mb-1 line-clamp-1">
+                    {prop.titulo || prop.direccion}
                 </p>
-                <p className="text-label-md text-outline mb-4">
-                    {prop.ciudad}, {prop.provincia}
+                <p className="text-label-md text-on-surface-variant mb-4">
+                    {prop.direccion}, {prop.ciudad}
                 </p>
 
-                <div className="flex items-center gap-4 pt-3 border-t border-outline-variant">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 p-3 bg-surface-variant/50 rounded-lg">
                     {prop.superficie && (
-                        <div className="flex items-center gap-1.5 text-on-surface-variant">
-                            <Maximize2 className="w-4 h-4" />
-                            <span className="text-label-md">{prop.superficie} m²</span>
+                        <div className="flex items-center gap-2 text-on-surface-variant">
+                            <Maximize2 className="w-4 h-4 text-primary" />
+                            <span className="text-label-md font-medium">{prop.superficie} m²</span>
                         </div>
                     )}
                     {prop.habitaciones && (
-                        <div className="flex items-center gap-1.5 text-on-surface-variant">
-                            <Bed className="w-4 h-4" />
-                            <span className="text-label-md">{prop.habitaciones} Hab.</span>
+                        <div className="flex items-center gap-2 text-on-surface-variant">
+                            <Bed className="w-4 h-4 text-primary" />
+                            <span className="text-label-md font-medium">{prop.habitaciones} Hab.</span>
+                        </div>
+                    )}
+                    {prop.banos && (
+                        <div className="flex items-center gap-2 text-on-surface-variant">
+                            <Bath className="w-4 h-4 text-primary" />
+                            <span className="text-label-md font-medium">{prop.banos} Baños</span>
+                        </div>
+                    )}
+                    {prop.plantas && (
+                        <div className="flex items-center gap-2 text-on-surface-variant">
+                            <Layers className="w-4 h-4 text-primary" />
+                            <span className="text-label-md font-medium">Piso {prop.plantas}</span>
+                        </div>
+                    )}
+                    {prop.parking && (
+                        <div className="flex items-center gap-2 text-on-surface-variant">
+                            <Car className="w-4 h-4 text-primary" />
+                            <span className="text-label-md font-medium">{prop.parking} Plaza</span>
                         </div>
                     )}
                 </div>

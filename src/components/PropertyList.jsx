@@ -1,19 +1,24 @@
-import { useEffect, useState, useCallback, useRef } from "react";
+import { useEffect, useState, useCallback, useRef, useContext } from "react";
+import { useSearchParams } from "react-router-dom";
 import { api, publicApi, buildSearchParams, parsePaginatedResponse } from "../api";
 import SearchBar from "./SearchBar";
 import PropertyCard from "./PropertyCard";
 import Pagination from "./common/Pagination";
+import { AuthContext } from "../contexts/AuthContext";
 
-export default function PropertyList({ userId = null }) {
+export default function PropertyList() {
+    const { user, favorites, toggleFavorite } = useContext(AuthContext);
+    const [searchParams, setSearchParams] = useSearchParams();
+
     const [properties, setProperties] = useState([]);
-    const [favorites, setFavorites] = useState([]);
     const [facetas, setFacetas] = useState(null);
     const [loading, setLoading] = useState(true);
     const [loadingFacetas, setLoadingFacetas] = useState(true);
     const [totalElements, setTotalElements] = useState(0);
     const [currentFilters, setCurrentFilters] = useState({});
-    const [page, setPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
+
+    const currentPage = parseInt(searchParams.get("page") || "0");
 
     const requestControllerRef = useRef(null);
     const facetasControllerRef = useRef(null);
@@ -65,7 +70,6 @@ export default function PropertyList({ userId = null }) {
             setProperties(parsed.data);
             setTotalPages(parsed.totalPages);
             setTotalElements(parsed.totalElements);
-            setPage(parsed.page);
         } catch (err) {
             if (err.code !== "ERR_CANCELED") {
                 console.error("[PropertyList] properties error:", err);
@@ -77,46 +81,25 @@ export default function PropertyList({ userId = null }) {
 
     useEffect(() => {
         fetchFacetas({});
-        fetchProperties(0, {});
-    }, [fetchFacetas, fetchProperties]);
-
-    useEffect(() => {
-        if (userId) {
-            api.get(`/favourite/${userId}`)
-                .then((res) => {
-                    const favIds = (res.data || []).map((fav) => fav.propiedadId);
-                    setFavorites(favIds);
-                })
-                .catch((err) => console.error("[PropertyList] favorites error:", err));
-        }
-    }, [userId]);
+        fetchProperties(currentPage, currentFilters);
+    }, [fetchFacetas, fetchProperties, currentPage, currentFilters]);
 
     const handleSearch = (filters) => {
+        setSearchParams({});
         setCurrentFilters(filters);
         fetchProperties(0, filters);
         fetchFacetas(filters);
     };
 
     const handlePageChange = useCallback((newPage) => {
-        fetchProperties(newPage, currentFilters);
+        setSearchParams({ page: newPage.toString() });
         window.scrollTo({ top: 0, behavior: "smooth" });
-    }, [currentFilters, fetchProperties]);
+    }, []);
 
     const handleFavoriteToggle = useCallback(async (propertyId) => {
-        if (!userId) return;
-        const isFav = favorites.includes(propertyId);
-        try {
-            if (isFav) {
-                await api.delete(`/favourite/${userId}/${propertyId}`);
-                setFavorites((prev) => prev.filter((id) => id !== propertyId));
-            } else {
-                await api.post(`/favourite/${userId}/${propertyId}`);
-                setFavorites((prev) => [...prev, propertyId]);
-            }
-        } catch (err) {
-            console.error("[PropertyList] handleFavoriteToggle error:", err);
-        }
-    }, [userId, favorites]);
+        if (!user?.id) return;
+        await toggleFavorite(propertyId);
+    }, [user, toggleFavorite]);
 
     const isLoading = loading || loadingFacetas;
 
@@ -148,7 +131,7 @@ export default function PropertyList({ userId = null }) {
                                 prop={prop}
                                 isFavorite={favorites.includes(prop.id)}
                                 onFavoriteToggle={handleFavoriteToggle}
-                                showFavoriteButton={!!userId}
+                                showFavoriteButton={!!user}
                             />
                         ))}
                     </div>
@@ -156,7 +139,7 @@ export default function PropertyList({ userId = null }) {
                     {totalPages > 1 && (
                         <div className="mt-8 flex justify-center">
                             <Pagination
-                                page={page}
+                                page={currentPage}
                                 totalPages={totalPages}
                                 onPageChange={handlePageChange}
                             />

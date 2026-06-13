@@ -15,7 +15,7 @@ export default function UserProfile() {
         if (favorites && favorites.length > 0) {
             setLoadingFavorites(true);
             Promise.all(
-                favorites.map((id) => api.get(`/property/${id}`))
+                favorites.map((id) => api.get("/property/" + id))
             )
                 .then((responses) => {
                     setFavoriteProperties(responses.map((r) => r.data));
@@ -24,6 +24,7 @@ export default function UserProfile() {
                 .finally(() => setLoadingFavorites(false));
         } else {
             setLoadingFavorites(false);
+            setFavoriteProperties([]);
         }
     }, [favorites]);
 
