@@ -52,10 +52,9 @@ export default function SearchBar({ onSearch, facetas = null, currentFilters = {
     }, [handleSubmit]);
 
     const handleFacetaCiudad = useCallback((ciu) => {
-        const newCiudad = ciudad === ciu ? "" : ciu;
-        setCiudad(newCiudad);
+        setCiudad(ciu);
         const tipos = tipoAgrupado ? TIPO_GRUPO_MAP[tipoAgrupado] : undefined;
-        onSearch({ operacion, texto, ciudad: newCiudad, tipos, tipoAgrupado, precioMin, precioMax, superficieMin, superficieMax });
+        onSearch({ operacion, texto, ciudad: ciu, tipos, tipoAgrupado, precioMin, precioMax, superficieMin, superficieMax });
     }, [ciudad, tipoAgrupado, operacion, texto, precioMin, precioMax, superficieMin, superficieMax, onSearch]);
 
     const handleFacetaTipo = useCallback((tg) => {
@@ -78,34 +77,34 @@ export default function SearchBar({ onSearch, facetas = null, currentFilters = {
     };
 
     return (
-        <div className="bg-white rounded-xl shadow-sm p-4 mb-4">
-            <div className="flex bg-gray-100 rounded-lg p-1 mb-4">
+        <div className="bg-surface rounded-lg border border-outline-variant shadow-surface p-4">
+            <div className="flex bg-surface-container-low rounded-lg p-1 mb-4">
                 <button
                     onClick={() => handleOperacionToggle("VENTA")}
-                    className={`flex-1 py-2 text-sm font-semibold rounded-md transition-all ${
+                    className={`flex-1 py-2.5 text-label-md font-semibold rounded-md transition-all duration-200 ${
                         operacion === "VENTA"
-                            ? "bg-white text-indigo-600 shadow-sm"
-                            : "text-gray-600 hover:text-gray-900"
+                            ? "bg-primary text-white shadow-sm"
+                            : "text-on-surface-variant hover:text-on-surface hover:bg-surface-container"
                     }`}
                 >
                     Comprar
                 </button>
                 <button
                     onClick={() => handleOperacionToggle("ALQUILER")}
-                    className={`flex-1 py-2 text-sm font-semibold rounded-md transition-all ${
+                    className={`flex-1 py-2.5 text-label-md font-semibold rounded-md transition-all duration-200 ${
                         operacion === "ALQUILER"
-                            ? "bg-white text-indigo-600 shadow-sm"
-                            : "text-gray-600 hover:text-gray-900"
+                            ? "bg-primary text-white shadow-sm"
+                            : "text-on-surface-variant hover:text-on-surface hover:bg-surface-container"
                     }`}
                 >
                     Alquilar
                 </button>
                 <button
                     onClick={() => handleOperacionToggle("OBRA_NUEVA")}
-                    className={`flex-1 py-2 text-sm font-semibold rounded-md transition-all ${
+                    className={`flex-1 py-2.5 text-label-md font-semibold rounded-md transition-all duration-200 ${
                         operacion === "OBRA_NUEVA"
-                            ? "bg-white text-indigo-600 shadow-sm"
-                            : "text-gray-600 hover:text-gray-900"
+                            ? "bg-primary text-white shadow-sm"
+                            : "text-on-surface-variant hover:text-on-surface hover:bg-surface-container"
                     }`}
                 >
                     Obra Nueva
@@ -114,7 +113,7 @@ export default function SearchBar({ onSearch, facetas = null, currentFilters = {
 
             <div className="flex flex-col md:flex-row md:items-center gap-3 mb-4">
                 <div className="relative flex-1">
-                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                         </svg>
@@ -125,13 +124,13 @@ export default function SearchBar({ onSearch, facetas = null, currentFilters = {
                         value={texto}
                         onChange={(e) => setTexto(e.target.value)}
                         onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
-                        className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                        className="w-full pl-10 pr-4 py-3 border border-outline rounded-lg bg-surface focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
                     />
                 </div>
                 <div className="flex gap-2">
                     <button
                         onClick={handleSubmit}
-                        className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg transition font-semibold flex items-center gap-2"
+                        className="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-lg transition font-semibold flex items-center gap-2 active:scale-[0.98]"
                     >
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -140,7 +139,7 @@ export default function SearchBar({ onSearch, facetas = null, currentFilters = {
                     </button>
                     <button
                         onClick={() => setMostrarFiltros(!mostrarFiltros)}
-                        className="text-indigo-600 hover:text-indigo-800 font-medium px-3 py-1 flex items-center gap-1"
+                        className="text-primary hover:text-primary/80 font-semibold px-3 py-1 flex items-center gap-1 text-label-md"
                     >
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12SlidersHorizontal" />
@@ -155,7 +154,7 @@ export default function SearchBar({ onSearch, facetas = null, currentFilters = {
                     <select
                         value={ciudad}
                         onChange={(e) => handleFacetaCiudad(e.target.value)}
-                        className="flex-1 max-w-xs px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm bg-white"
+                        className="flex-1 max-w-xs px-3 py-2.5 border border-outline rounded-lg bg-surface focus:outline-none focus:ring-2 focus:ring-primary text-body-md"
                     >
                         <option value="">Todas las ciudades</option>
                         {groupedCiudades.map(([ciu, count]) => (
@@ -165,7 +164,7 @@ export default function SearchBar({ onSearch, facetas = null, currentFilters = {
                     {ciudad && (
                         <button
                             onClick={() => handleFacetaCiudad("")}
-                            className="text-gray-400 hover:text-gray-600 text-sm"
+                            className="text-on-surface-variant hover:text-primary text-label-md"
                         >
                             Limpiar
                         </button>
@@ -174,12 +173,12 @@ export default function SearchBar({ onSearch, facetas = null, currentFilters = {
             )}
 
             {mostrarFiltros && (
-                <div className="mt-4 pt-4 border-t border-gray-100">
-                    <div className="flex flex-wrap gap-4">
+                <div className="mt-4 pt-4 border-t border-outline-variant">
+                    <div className="flex flex-wrap gap-3">
                         <select
                             value={precioMin}
                             onChange={(e) => setPrecioMin(e.target.value)}
-                            className="px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
+                            className="px-3 py-2.5 border border-outline rounded-lg bg-surface focus:outline-none focus:ring-2 focus:ring-primary text-body-md"
                         >
                             <option value="">Precio min.</option>
                             <option value="50000">50.000 €</option>
@@ -192,7 +191,7 @@ export default function SearchBar({ onSearch, facetas = null, currentFilters = {
                         <select
                             value={precioMax}
                             onChange={(e) => setPrecioMax(e.target.value)}
-                            className="px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
+                            className="px-3 py-2.5 border border-outline rounded-lg bg-surface focus:outline-none focus:ring-2 focus:ring-primary text-body-md"
                         >
                             <option value="">Precio max.</option>
                             <option value="100000">100.000 €</option>
@@ -207,25 +206,25 @@ export default function SearchBar({ onSearch, facetas = null, currentFilters = {
                             placeholder="Superficie min. (m²)"
                             value={superficieMin}
                             onChange={(e) => setSuperficieMin(e.target.value)}
-                            className="px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm w-36"
+                            className="px-3 py-2.5 border border-outline rounded-lg bg-surface focus:outline-none focus:ring-2 focus:ring-primary text-body-md w-36"
                         />
                         <input
                             type="number"
                             placeholder="Superficie max. (m²)"
                             value={superficieMax}
                             onChange={(e) => setSuperficieMax(e.target.value)}
-                            className="px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm w-36"
+                            className="px-3 py-2.5 border border-outline rounded-lg bg-surface focus:outline-none focus:ring-2 focus:ring-primary text-body-md w-36"
                         />
                         <button
                             onClick={handleClear}
-                            className="text-gray-500 hover:text-gray-700 text-sm px-2"
+                            className="text-on-surface-variant hover:text-primary text-label-md px-2"
                         >
                             Limpiar filtros
                         </button>
                     </div>
 
                     {facetas && (
-                        <div className="flex flex-wrap gap-4 mt-4 pt-4 border-t border-gray-100">
+                        <div className="flex flex-wrap gap-3 mt-4 pt-4 border-t border-outline-variant">
                             {["Piso", "Casa"].map((group) => {
                                 const count = countByTipoGroup(group);
                                 if (count === 0) return null;
@@ -233,10 +232,10 @@ export default function SearchBar({ onSearch, facetas = null, currentFilters = {
                                     <button
                                         key={group}
                                         onClick={() => handleFacetaTipo(group)}
-                                        className={`text-sm px-3 py-1.5 rounded-full border transition ${
+                                        className={`text-label-md px-4 py-2 rounded-full border transition-all duration-200 ${
                                             tipoAgrupado === group
-                                                ? "bg-indigo-600 text-white border-indigo-600"
-                                                : "bg-gray-50 text-gray-700 border-gray-200 hover:border-indigo-400"
+                                                ? "bg-primary text-white border-primary"
+                                                : "bg-surface-container text-on-surface-variant border-outline hover:border-primary hover:text-primary"
                                         }`}
                                     >
                                         {group} ({count})
@@ -250,26 +249,26 @@ export default function SearchBar({ onSearch, facetas = null, currentFilters = {
 
             {(ciudad || tipoAgrupado || precioMin || precioMax || superficieMin || superficieMax) && (
                 <div className="mt-4 flex gap-2 flex-wrap items-center">
-                    <span className="text-sm text-gray-500">Filtros activos:</span>
+                    <span className="text-label-md text-on-surface-variant">Filtros activos:</span>
                     {ciudad && (
-                        <span className="inline-flex items-center gap-1 text-sm bg-indigo-50 text-indigo-700 px-3 py-1 rounded-full">
+                        <span className="inline-flex items-center gap-1 text-label-md bg-primary-container text-primary px-3 py-1.5 rounded-full">
                             {ciudad}
-                            <button onClick={() => handleFacetaCiudad(ciudad)} className="font-bold hover:text-indigo-900 ml-1">×</button>
+                            <button onClick={() => handleFacetaCiudad("")} className="font-bold hover:text-primary/70 ml-1">×</button>
                         </span>
                     )}
                     {tipoAgrupado && (
-                        <span className="inline-flex items-center gap-1 text-sm bg-indigo-50 text-indigo-700 px-3 py-1 rounded-full">
+                        <span className="inline-flex items-center gap-1 text-label-md bg-primary-container text-primary px-3 py-1.5 rounded-full">
                             {tipoAgrupado}
-                            <button onClick={() => handleFacetaTipo(tipoAgrupado)} className="font-bold hover:text-indigo-900 ml-1">×</button>
+                            <button onClick={() => handleFacetaTipo(tipoAgrupado)} className="font-bold hover:text-primary/70 ml-1">×</button>
                         </span>
                     )}
                     {precioMin && (
-                        <span className="inline-flex items-center gap-1 text-sm bg-gray-100 text-gray-600 px-3 py-1 rounded-full">
+                        <span className="inline-flex items-center gap-1 text-label-md bg-surface-container text-on-surface-variant px-3 py-1.5 rounded-full">
                             Min: {parseInt(precioMin).toLocaleString()} €
                         </span>
                     )}
                     {precioMax && (
-                        <span className="inline-flex items-center gap-1 text-sm bg-gray-100 text-gray-600 px-3 py-1 rounded-full">
+                        <span className="inline-flex items-center gap-1 text-label-md bg-surface-container text-on-surface-variant px-3 py-1.5 rounded-full">
                             Max: {parseInt(precioMax).toLocaleString()} €
                         </span>
                     )}

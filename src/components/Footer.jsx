@@ -1,21 +1,31 @@
 export default function Footer() {
     return (
-        <footer className="footer flex flex-row items-center justify-center bg-gray-800 text-white p-4">
-            <div className="footer__content flex flex-col items-center">
-                <p className="footer__text">
-                    © 2025 Inmotech. All rights reserved.
-                </p>
-                <ul className="footer__links flex flex-row items-center justify-center space-x-4 mt-2">
-                    <li className="footer__link-item">
-                        <a href="#privacy">Privacy Policy</a>
-                    </li>
-                    <li className="footer__link-item">
-                        <a href="#terms">Terms of Service</a>
-                    </li>
-                    <li className="footer__link-item">
-                        <a href="#contact">Contact Us</a>
-                    </li>
-                </ul>
+        <footer className="bg-surface-container-high py-8 px-4">
+            <div className="max-w-6xl mx-auto">
+                <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+                    <div className="text-center md:text-left">
+                        <h3 className="text-headline-md text-primary font-bold mb-2">InmoTech</h3>
+                        <p className="text-body-md text-on-surface-variant">
+                            Tu próximo hogar te espera
+                        </p>
+                    </div>
+                    <div className="flex flex-wrap justify-center gap-6 text-label-md">
+                        <a href="#privacy" className="text-on-surface-variant hover:text-primary transition-colors">
+                            Política de Privacidad
+                        </a>
+                        <a href="#terms" className="text-on-surface-variant hover:text-primary transition-colors">
+                            Términos de Servicio
+                        </a>
+                        <a href="#contact" className="text-on-surface-variant hover:text-primary transition-colors">
+                            Contacto
+                        </a>
+                    </div>
+                </div>
+                <div className="border-t border-outline-variant mt-6 pt-6 text-center">
+                    <p className="text-label-md text-on-surface-variant">
+                        © 2025 InmoTech. Todos los derechos reservados.
+                    </p>
+                </div>
             </div>
         </footer>
     );

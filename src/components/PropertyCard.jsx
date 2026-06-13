@@ -16,19 +16,18 @@ export default function PropertyCard({
             : `${BASE_URL_IMG}${encodeURI(prop.imagenes[0].url)}`
         : DEFAULT_IMAGE_URL;
 
-    const isVenta = prop.operacion === "VENTA" || prop.operacion === "ALQUILER" || prop.operacion === "OBRA_NUEVA";
     const badgeClass = prop.operacion === "ALQUILER" 
-        ? "bg-emerald-100 text-emerald-700" 
+        ? "bg-emerald-500 text-white" 
         : prop.operacion === "OBRA_NUEVA"
-        ? "bg-amber-100 text-amber-700"
-        : "bg-indigo-100 text-indigo-700";
+        ? "bg-secondary text-white"
+        : "bg-primary text-white";
 
     const formatPrice = (price) => {
         return new Intl.NumberFormat("es-ES").format(price);
     };
 
     return (
-        <div className="group bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden">
+        <div className="group bg-surface rounded-lg border border-outline-variant shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden hover:scale-[1.02]">
             <div className="relative aspect-[4/3] overflow-hidden">
                 <img
                     src={imageUrl}
@@ -41,7 +40,7 @@ export default function PropertyCard({
                 />
                 
                 <div className="absolute top-3 left-3 z-10">
-                    <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${badgeClass}`}>
+                    <span className={`text-label-sm font-semibold px-3 py-1.5 rounded-full ${badgeClass}`}>
                         {prop.operacion === "ALQUILER" ? "Alquiler" : 
                          prop.operacion === "OBRA_NUEVA" ? "Obra Nueva" : "Venta"}
                     </span>
@@ -55,10 +54,10 @@ export default function PropertyCard({
                             onFavoriteToggle(prop.id);
                         }}
                         className={`
-                            absolute top-3 right-3 z-10 p-2 rounded-full transition-all duration-300
+                            absolute top-3 right-3 z-10 p-2.5 rounded-full transition-all duration-300
                             ${isFavorite 
-                                ? "bg-red-500 text-white scale-110 hover:bg-red-600" 
-                                : "bg-white/90 backdrop-blur-sm text-gray-400 hover:bg-white hover:text-red-500 hover:scale-110"
+                                ? "bg-tertiary text-white scale-110 hover:bg-tertiary/90" 
+                                : "bg-surface/90 backdrop-blur-sm text-on-surface-variant hover:bg-surface hover:text-tertiary hover:scale-110"
                             }
                             shadow-md hover:shadow-lg
                         `}
@@ -70,7 +69,7 @@ export default function PropertyCard({
 
                 {prop.destacado && (
                     <div className="absolute bottom-3 left-3 z-10">
-                        <span className="bg-gradient-to-r from-amber-400 to-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow">
+                        <span className="bg-gradient-to-r from-amber-400 to-orange-500 text-white text-label-sm font-bold px-3 py-1.5 rounded-full shadow">
                             Destacado
                         </span>
                     </div>
@@ -79,32 +78,31 @@ export default function PropertyCard({
 
             <Link to={`/property/${prop.id}`} className="block p-4">
                 <div className="flex justify-between items-start mb-2">
-                    <h3 className="text-xl font-bold text-gray-900 group-hover:text-indigo-600 transition-colors">
+                    <h3 className="text-headline-md text-on-surface group-hover:text-primary transition-colors">
                         {formatPrice(prop.precio)} {prop.operacion === "ALQUILER" ? "€/mes" : "€"}
                     </h3>
                 </div>
 
-                <p className="text-gray-600 text-sm mb-1 line-clamp-1">
+                <p className="text-body-md text-on-surface-variant mb-1 line-clamp-1">
                     {prop.direccion}
                 </p>
-                <p className="text-gray-500 text-sm mb-3">
+                <p className="text-label-md text-outline mb-4">
                     {prop.ciudad}, {prop.provincia}
                 </p>
 
-                <div className="flex items-center gap-4 pt-3 border-t border-gray-50">
+                <div className="flex items-center gap-4 pt-3 border-t border-outline-variant">
                     {prop.superficie && (
-                        <div className="flex items-center gap-1.5 text-gray-500 text-sm">
+                        <div className="flex items-center gap-1.5 text-on-surface-variant">
                             <Maximize2 className="w-4 h-4" />
-                            <span>{prop.superficie} m²</span>
+                            <span className="text-label-md">{prop.superficie} m²</span>
                         </div>
                     )}
                     {prop.habitaciones && (
-                        <div className="flex items-center gap-1.5 text-gray-500 text-sm">
+                        <div className="flex items-center gap-1.5 text-on-surface-variant">
                             <Bed className="w-4 h-4" />
-                            <span>{prop.habitaciones} Hab.</span>
+                            <span className="text-label-md">{prop.habitaciones} Hab.</span>
                         </div>
                     )}
-                    
                 </div>
             </Link>
         </div>

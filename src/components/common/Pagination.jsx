@@ -18,11 +18,11 @@ export default function Pagination({ page, totalPages, onPageChange }) {
     }
 
     return (
-        <div className="flex items-center justify-center gap-2 py-4">
+        <div className="flex items-center justify-center gap-1 py-4">
             <button
                 onClick={() => onPageChange(page - 1)}
                 disabled={page === 0}
-                className="p-2 rounded-lg border hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="p-2 rounded-lg border border-outline hover:bg-surface-container disabled:opacity-50 disabled:cursor-not-allowed text-on-surface-variant hover:text-on-surface transition-colors"
             >
                 <ChevronLeft className="w-5 h-5" />
             </button>
@@ -31,11 +31,15 @@ export default function Pagination({ page, totalPages, onPageChange }) {
                 <>
                     <button
                         onClick={() => onPageChange(0)}
-                        className={`w-10 h-10 rounded-lg border ${page === 0 ? 'bg-indigo-600 text-white' : 'hover:bg-gray-100'}`}
+                        className={`w-10 h-10 rounded-lg border text-label-md ${
+                            page === 0 
+                                ? 'bg-primary text-white border-primary' 
+                                : 'border-outline text-on-surface-variant hover:bg-surface-container hover:text-on-surface'
+                        }`}
                     >
                         1
                     </button>
-                    {start > 1 && <span className="px-2">...</span>}
+                    {start > 1 && <span className="px-2 text-on-surface-variant">...</span>}
                 </>
             )}
 
@@ -43,8 +47,10 @@ export default function Pagination({ page, totalPages, onPageChange }) {
                 <button
                     key={p}
                     onClick={() => onPageChange(p)}
-                    className={`w-10 h-10 rounded-lg border ${
-                        page === p ? 'bg-indigo-600 text-white' : 'hover:bg-gray-100'
+                    className={`w-10 h-10 rounded-lg border text-label-md transition-colors ${
+                        page === p 
+                            ? 'bg-primary text-white border-primary' 
+                            : 'border-outline text-on-surface-variant hover:bg-surface-container hover:text-on-surface'
                     }`}
                 >
                     {p + 1}
@@ -53,10 +59,14 @@ export default function Pagination({ page, totalPages, onPageChange }) {
 
             {end < totalPages - 1 && (
                 <>
-                    {end < totalPages - 2 && <span className="px-2">...</span>}
+                    {end < totalPages - 2 && <span className="px-2 text-on-surface-variant">...</span>}
                     <button
                         onClick={() => onPageChange(totalPages - 1)}
-                        className={`w-10 h-10 rounded-lg border ${page === totalPages - 1 ? 'bg-indigo-600 text-white' : 'hover:bg-gray-100'}`}
+                        className={`w-10 h-10 rounded-lg border text-label-md ${
+                            page === totalPages - 1 
+                                ? 'bg-primary text-white border-primary' 
+                                : 'border-outline text-on-surface-variant hover:bg-surface-container hover:text-on-surface'
+                        }`}
                     >
                         {totalPages}
                     </button>
@@ -66,7 +76,7 @@ export default function Pagination({ page, totalPages, onPageChange }) {
             <button
                 onClick={() => onPageChange(page + 1)}
                 disabled={page === totalPages - 1}
-                className="p-2 rounded-lg border hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="p-2 rounded-lg border border-outline hover:bg-surface-container disabled:opacity-50 disabled:cursor-not-allowed text-on-surface-variant hover:text-on-surface transition-colors"
             >
                 <ChevronRight className="w-5 h-5" />
             </button>
