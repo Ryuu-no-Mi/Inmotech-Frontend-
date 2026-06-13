@@ -6,13 +6,13 @@ import { useContext } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import Footer from "../components/Footer";
 import { publicApi, parsePaginatedResponse } from "../api";
-import { Home as HomeIcon, Apartment, Architecture, Landscape } from "lucide-react";
+import { Home as HomeIcon, Building2, Landmark, TreePine } from "lucide-react";
 
 const CATEGORIES = [
-    { id: "Piso", label: "Pisos", icon: Apartment },
+    { id: "Piso", label: "Pisos", icon: Building2 },
     { id: "Casa", label: "Casas", icon: HomeIcon },
-    { id: "OBRA_NUEVA", label: "Obra Nueva", icon: Architecture },
-    { id: "Terreno", label: "Terrenos", icon: Landscape },
+    { id: "OBRA_NUEVA", label: "Obra Nueva", icon: Landmark },
+    { id: "Terreno", label: "Terrenos", icon: TreePine },
 ];
 
 export default function Home() {
@@ -55,14 +55,13 @@ export default function Home() {
                         </p>
                         <div className="inline-flex gap-3 overflow-x-auto hide-scrollbar pb-2">
                             {CATEGORIES.map((cat) => (
-                                <Link
+                                <span
                                     key={cat.id}
-                                    to={`/?tipo=${cat.id}`}
-                                    className="flex-shrink-0 flex items-center gap-2 bg-white/10 hover:bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full transition text-sm font-medium"
+                                    className="flex-shrink-0 flex items-center gap-2 bg-white/10 hover:bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full transition text-sm font-medium cursor-pointer"
                                 >
                                     <cat.icon className="w-4 h-4" />
                                     {cat.label}
-                                </Link>
+                                </span>
                             ))}
                         </div>
                     </div>

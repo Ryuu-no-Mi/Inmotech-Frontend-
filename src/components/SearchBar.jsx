@@ -151,20 +151,25 @@ export default function SearchBar({ onSearch, facetas = null, currentFilters = {
             </div>
 
             {facetas && groupedCiudades.length > 0 && (
-                <div className="flex gap-2 overflow-x-auto pb-2 -mx-1 px-1 hide-scrollbar">
-                    {groupedCiudades.map(([ciu, count]) => (
+                <div className="flex items-center gap-3 mb-2">
+                    <select
+                        value={ciudad}
+                        onChange={(e) => handleFacetaCiudad(e.target.value)}
+                        className="flex-1 max-w-xs px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm bg-white"
+                    >
+                        <option value="">Todas las ciudades</option>
+                        {groupedCiudades.map(([ciu, count]) => (
+                            <option key={ciu} value={ciu}>{ciu} ({count})</option>
+                        ))}
+                    </select>
+                    {ciudad && (
                         <button
-                            key={ciu}
-                            onClick={() => handleFacetaCiudad(ciu)}
-                            className={`flex-shrink-0 text-sm px-3 py-1.5 rounded-full border transition whitespace-nowrap ${
-                                ciudad === ciu
-                                    ? "bg-indigo-600 text-white border-indigo-600"
-                                    : "bg-gray-50 text-gray-700 border-gray-200 hover:border-indigo-400"
-                            }`}
+                            onClick={() => handleFacetaCiudad("")}
+                            className="text-gray-400 hover:text-gray-600 text-sm"
                         >
-                            {ciu} ({count})
+                            Limpiar
                         </button>
-                    ))}
+                    )}
                 </div>
             )}
 

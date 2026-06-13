@@ -104,11 +104,7 @@ export default function PropertyCard({
                             <span>{prop.habitaciones} Hab.</span>
                         </div>
                     )}
-                    {prop.tipo && (
-                        <span className="text-xs text-gray-400 ml-auto">
-                            {prop.tipo}
-                        </span>
-                    )}
+                    
                 </div>
             </Link>
         </div>
