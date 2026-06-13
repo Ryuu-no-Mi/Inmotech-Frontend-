@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+  <!-- Isotipo optimizado con el color Primary de tu sistema (#4338ca) -->
+  <g fill="none" stroke="#4338ca" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Estructura de la casa con trazo limpio y profesional -->
+    <path d="M 50,15 L 14,43 L 22,43 L 22,85 C 22,87 24,89 26,89 L 74,89 C 76,89 78,87 78,85 L 78,43 L 86,43 Z" 
+          stroke-width="5" />
+    
+    <!-- Chimenea integrada con el mismo lenguaje visual -->
+    <path d="M 68,31 L 68,23 C 68,22 69,21 70,21 L 76,21 C 77,21 78,22 78,23 L 78,39" 
+          stroke-width="5" />
+
+    <!-- Nodo Central Alto (Tecnología/Conectividad) -->
+    <line x1="50" y1="89" x2="50" y2="48" stroke-width="4.5" />
+    <circle cx="50" cy="44" r="5" fill="#ffffff" stroke-width="4.5" />
+
+    <!-- Nodo Izquierdo Medio -->
+    <line x1="36" y1="89" x2="36" y2="64" stroke-width="4.5" />
+    <circle cx="36" cy="60" r="4.5" fill="#ffffff" stroke-width="4.5" />
+
+    <!-- Nodo Derecho Medio -->
+    <line x1="64" y1="89" x2="64" y2="64" stroke-width="4.5" />
+    <circle cx="64" cy="60" r="4.5" fill="#ffffff" stroke-width="4.5" />
+  </g>
+</svg>

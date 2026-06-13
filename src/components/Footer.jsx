@@ -21,9 +21,20 @@ export default function Footer() {
                         </a>
                     </div>
                 </div>
-                <div className="border-t border-outline-variant mt-6 pt-6 text-center">
+                <div className="border-t border-outline-variant mt-6 pt-6 text-center space-y-2">
                     <p className="text-label-md text-on-surface-variant">
                         © 2025 InmoTech. Todos los derechos reservados.
+                    </p>
+                    <p className="text-label-md text-on-surface-variant">
+                        Creado con cariño por{" "}
+                        <a
+                            href="https://github.com/Ryuu-no-Mi"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-tertiary hover:text-tertiary/80 transition-colors font-semibold"
+                        >
+                            Ryuu-no-Mi
+                        </a>
                     </p>
                 </div>
             </div>

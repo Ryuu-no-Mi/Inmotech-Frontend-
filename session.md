@@ -11,31 +11,20 @@
 
 ## Cambios realizados
 
-### 1. `api/index.js` — `buildSearchParams` con `TIPO_GRUPO_MAP` array
+### 1. `api/index.js` — `buildSearchParams` con `TIPO_GRUPO_MAP` array + `distrito`/`barrio`
 
-**Problema:** El frontend agrupa tipos (ej. "Piso" → `["PISO","ESTUDIO","DUPLEX","ATICO","PENTHOUSE"]`). Antes enviaba `tipos[0]` (solo el primer tipo), ignorando los demás.
-
-**Cambio en `buildSearchParams`:**
-```js
-// ANTES (bug):
-if (filters.tipoAgrupado) {
-    const tipos = TIPO_GRUPO_MAP[filters.tipoAgrupado];
-    if (tipos) params.tipo = tipos[0]; // solo mandaba 1 tipo
-}
-
-// AHORA (fix):
-if (filters.tipoAgrupado) {
-    const tipos = TIPO_GRUPO_MAP[filters.tipoAgrupado];
-    if (tipos) params.tipos = tipos; // array completo
-}
-```
-
-**`TIPO_GRUPO_MAP`:**
+**`TIPO_GRUPO_MAP`** — map grouping para enviar array de tipos:
 ```js
 const TIPO_GRUPO_MAP = {
     Piso: ["PISO", "ESTUDIO", "DUPLEX", "ATICO", "PENTHOUSE"],
     Casa: ["CASA", "CHALET", "VILLA"]
 };
+```
+
+**`buildSearchParams` actualizado** — ahora incluye `distrito` y `barrio`:
+```js
+if (filters.distrito) params.distrito = filters.distrito;
+if (filters.barrio) params.barrio = filters.barrio;
 ```
 
 ### 2. `paramsSerializer` en ambos Axios clients
@@ -57,10 +46,62 @@ paramsSerializer: (params) => {
 }
 ```
 
-### 3. Frontend ya estaba preparado (NO se tocó)
-- `SearchBar.jsx` — ya envía `tipoAgrupado` correctamente
-- `PropertyList.jsx` — ya llama `buildSearchParams()` y pasa `filters` a `facetas`
-- `Pagination.jsx` — ya usa `onPageChange` (renombrado previamente)
+### 3. `SearchBar.jsx` — Distrito y Barrio facets
+
+**Estados añadidos:**
+```js
+const [distrito, setDistrito] = useState(currentFilters.distrito || "");
+const [barrio, setBarrio] = useState(currentFilters.barrio || "");
+```
+
+**Handlers nuevos:**
+- `handleFacetaDistrito` — toggle distrito, limpia barrio al cambiar
+- `handleFacetaBarrio` — toggle barrio
+
+**UI — Facetas de Distrito (solo si ciudad seleccionada):**
+```jsx
+{ciudad && facetas && facetas.distritos && Object.keys(facetas.distritos).length > 0 && (
+    <div className="mb-3">
+        <span className="text-label-sm text-on-surface-variant mb-1 block">Distritos</span>
+        <div className="flex flex-wrap gap-2">
+            {Object.entries(facetas.distritos)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 15)
+                .map(([dist, count]) => (
+                    <button onClick={() => handleFacetaDistrito(dist)} ...>
+                        {dist} ({count})
+                    </button>
+                ))}
+        </div>
+    </div>
+)}
+```
+
+**UI — Facetas de Barrio (solo si ciudad seleccionada):**
+```jsx
+{ciudad && facetas && facetas.barrios && Object.keys(facetas.barrios).length > 0 && (
+    <div className="mb-3">
+        <span className="text-label-sm text-on-surface-variant mb-1 block">Barrios</span>
+        <div className="flex flex-wrap gap-2">
+            {Object.entries(facetas.barrios)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 20)
+                .map(([bar, count]) => (
+                    <button onClick={() => handleFacetaBarrio(bar)} ...>
+                        {bar} ({count})
+                    </button>
+                ))}
+        </div>
+    </div>
+)}
+```
+
+**Chips de filtros activos** — ahora incluyen distrito y barrio con colores diferenciados:
+- Ciudad → `bg-primary-container` (primary)
+- Distrito → `bg-secondary-container` (secondary)
+- Barrio → `bg-tertiary-container` (tertiary)
+
+**Al seleccionar ciudad** → se resetean `distrito` y `barrio` a empty.
 
 ## Bugs corregidos
 

@@ -55,6 +55,8 @@ export const buildSearchParams = (filters) => {
     if (filters.operacion) params.operacion = filters.operacion;
     if (filters.texto) params.texto = filters.texto;
     if (filters.ciudad) params.ciudad = filters.ciudad;
+    if (filters.distrito) params.distrito = filters.distrito;
+    if (filters.barrio) params.barrio = filters.barrio;
     if (filters.provincia) params.provincia = filters.provincia;
     if (filters.precioMin) params.precioMin = filters.precioMin;
     if (filters.precioMax) params.precioMax = filters.precioMax;

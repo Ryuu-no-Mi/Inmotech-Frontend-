@@ -1,7 +1,8 @@
 import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
-import logo from "../assets/logo_inmotech_2.png";
+import logo from "../assets/logo_new_inmotech.svg";
+
 
 export default function Navbar() {
     const { user, logout } = useContext(AuthContext);

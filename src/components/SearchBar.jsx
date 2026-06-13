@@ -12,6 +12,8 @@ export default function SearchBar({ onSearch, facetas = null, currentFilters = {
     const [operacion, setOperacion] = useState(currentFilters.operacion || "VENTA");
     const [texto, setTexto] = useState(currentFilters.texto || "");
     const [ciudad, setCiudad] = useState(currentFilters.ciudad || "");
+    const [distrito, setDistrito] = useState(currentFilters.distrito || "");
+    const [barrio, setBarrio] = useState(currentFilters.barrio || "");
     const [tipoAgrupado, setTipoAgrupado] = useState(currentFilters.tipoAgrupado || "");
     const [precioMin, setPrecioMin] = useState(currentFilters.precioMin || "");
     const [precioMax, setPrecioMax] = useState(currentFilters.precioMax || "");
@@ -21,23 +23,27 @@ export default function SearchBar({ onSearch, facetas = null, currentFilters = {
 
     const handleSubmit = useCallback(() => {
         const tipos = tipoAgrupado ? TIPO_GRUPO_MAP[tipoAgrupado] : undefined;
-        onSearch({ 
-            operacion, 
-            texto, 
-            ciudad, 
+        onSearch({
+            operacion,
+            texto,
+            ciudad,
+            distrito,
+            barrio,
             tipos,
             tipoAgrupado,
-            precioMin, 
-            precioMax, 
-            superficieMin, 
-            superficieMax 
+            precioMin,
+            precioMax,
+            superficieMin,
+            superficieMax
         });
-    }, [operacion, texto, ciudad, tipoAgrupado, precioMin, precioMax, superficieMin, superficieMax, onSearch]);
+    }, [operacion, texto, ciudad, distrito, barrio, tipoAgrupado, precioMin, precioMax, superficieMin, superficieMax, onSearch]);
 
     const handleClear = useCallback(() => {
         setOperacion("VENTA");
         setTexto("");
         setCiudad("");
+        setDistrito("");
+        setBarrio("");
         setTipoAgrupado("");
         setPrecioMin("");
         setPrecioMax("");
@@ -53,16 +59,33 @@ export default function SearchBar({ onSearch, facetas = null, currentFilters = {
 
     const handleFacetaCiudad = useCallback((ciu) => {
         setCiudad(ciu);
+        setDistrito("");
+        setBarrio("");
         const tipos = tipoAgrupado ? TIPO_GRUPO_MAP[tipoAgrupado] : undefined;
-        onSearch({ operacion, texto, ciudad: ciu, tipos, tipoAgrupado, precioMin, precioMax, superficieMin, superficieMax });
+        onSearch({ operacion, texto, ciudad: ciu, distrito: "", barrio: "", tipos, tipoAgrupado, precioMin, precioMax, superficieMin, superficieMax });
+    }, [tipoAgrupado, operacion, texto, precioMin, precioMax, superficieMin, superficieMax, onSearch]);
+
+    const handleFacetaDistrito = useCallback((dist) => {
+        const newDist = distrito === dist ? "" : dist;
+        setDistrito(newDist);
+        setBarrio("");
+        const tipos = tipoAgrupado ? TIPO_GRUPO_MAP[tipoAgrupado] : undefined;
+        onSearch({ operacion, texto, ciudad, distrito: newDist, barrio: "", tipos, tipoAgrupado, precioMin, precioMax, superficieMin, superficieMax });
     }, [ciudad, tipoAgrupado, operacion, texto, precioMin, precioMax, superficieMin, superficieMax, onSearch]);
+
+    const handleFacetaBarrio = useCallback((bar) => {
+        const newBar = barrio === bar ? "" : bar;
+        setBarrio(newBar);
+        const tipos = tipoAgrupado ? TIPO_GRUPO_MAP[tipoAgrupado] : undefined;
+        onSearch({ operacion, texto, ciudad, distrito, barrio: newBar, tipos, tipoAgrupado, precioMin, precioMax, superficieMin, superficieMax });
+    }, [ciudad, distrito, tipoAgrupado, operacion, texto, precioMin, precioMax, superficieMin, superficieMax, onSearch]);
 
     const handleFacetaTipo = useCallback((tg) => {
         const newTipoAgrupado = tipoAgrupado === tg ? "" : tg;
         setTipoAgrupado(newTipoAgrupado);
         const tipos = newTipoAgrupado ? TIPO_GRUPO_MAP[newTipoAgrupado] : undefined;
-        onSearch({ operacion, texto, ciudad, tipos, tipoAgrupado: newTipoAgrupado, precioMin, precioMax, superficieMin, superficieMax });
-    }, [tipoAgrupado, operacion, texto, ciudad, precioMin, precioMax, superficieMin, superficieMax, onSearch]);
+        onSearch({ operacion, texto, ciudad, distrito, barrio, tipos, tipoAgrupado: newTipoAgrupado, precioMin, precioMax, superficieMin, superficieMax });
+    }, [tipoAgrupado, ciudad, distrito, barrio, operacion, texto, precioMin, precioMax, superficieMin, superficieMax, onSearch]);
 
     const groupedCiudades = facetas?.ciudades
         ? Object.entries(facetas.ciudades)
@@ -172,6 +195,54 @@ export default function SearchBar({ onSearch, facetas = null, currentFilters = {
                 </div>
             )}
 
+            {ciudad && facetas && facetas.distritos && Object.keys(facetas.distritos).length > 0 && (
+                <div className="mb-3">
+                    <span className="text-label-sm text-on-surface-variant mb-1 block">Distritos</span>
+                    <div className="flex flex-wrap gap-2">
+                        {Object.entries(facetas.distritos)
+                            .sort((a, b) => b[1] - a[1])
+                            .slice(0, 15)
+                            .map(([dist, count]) => (
+                                <button
+                                    key={dist}
+                                    onClick={() => handleFacetaDistrito(dist)}
+                                    className={`text-label-sm px-3 py-1.5 rounded-full border transition-all ${
+                                        distrito === dist
+                                            ? "bg-primary text-white border-primary"
+                                            : "bg-surface-container text-on-surface-variant border-outline hover:border-primary"
+                                    }`}
+                                >
+                                    {dist} ({count})
+                                </button>
+                            ))}
+                    </div>
+                </div>
+            )}
+
+            {ciudad && facetas && facetas.barrios && Object.keys(facetas.barrios).length > 0 && (
+                <div className="mb-3">
+                    <span className="text-label-sm text-on-surface-variant mb-1 block">Barrios</span>
+                    <div className="flex flex-wrap gap-2">
+                        {Object.entries(facetas.barrios)
+                            .sort((a, b) => b[1] - a[1])
+                            .slice(0, 20)
+                            .map(([bar, count]) => (
+                                <button
+                                    key={bar}
+                                    onClick={() => handleFacetaBarrio(bar)}
+                                    className={`text-label-sm px-3 py-1.5 rounded-full border transition-all ${
+                                        barrio === bar
+                                            ? "bg-primary text-white border-primary"
+                                            : "bg-surface-container text-on-surface-variant border-outline hover:border-primary"
+                                    }`}
+                                >
+                                    {bar} ({count})
+                                </button>
+                            ))}
+                    </div>
+                </div>
+            )}
+
             {mostrarFiltros && (
                 <div className="mt-4 pt-4 border-t border-outline-variant">
                     <div className="flex flex-wrap gap-3">
@@ -247,13 +318,25 @@ export default function SearchBar({ onSearch, facetas = null, currentFilters = {
                 </div>
             )}
 
-            {(ciudad || tipoAgrupado || precioMin || precioMax || superficieMin || superficieMax) && (
+            {(ciudad || tipoAgrupado || precioMin || precioMax || superficieMin || superficieMax || distrito || barrio) && (
                 <div className="mt-4 flex gap-2 flex-wrap items-center">
                     <span className="text-label-md text-on-surface-variant">Filtros activos:</span>
                     {ciudad && (
                         <span className="inline-flex items-center gap-1 text-label-md bg-primary-container text-primary px-3 py-1.5 rounded-full">
                             {ciudad}
                             <button onClick={() => handleFacetaCiudad("")} className="font-bold hover:text-primary/70 ml-1">×</button>
+                        </span>
+                    )}
+                    {distrito && (
+                        <span className="inline-flex items-center gap-1 text-label-md bg-secondary-container text-secondary px-3 py-1.5 rounded-full">
+                            {distrito}
+                            <button onClick={() => handleFacetaDistrito(distrito)} className="font-bold hover:text-secondary/70 ml-1">×</button>
+                        </span>
+                    )}
+                    {barrio && (
+                        <span className="inline-flex items-center gap-1 text-label-md bg-tertiary-container text-tertiary px-3 py-1.5 rounded-full">
+                            {barrio}
+                            <button onClick={() => handleFacetaBarrio(barrio)} className="font-bold hover:text-tertiary/70 ml-1">×</button>
                         </span>
                     )}
                     {tipoAgrupado && (
