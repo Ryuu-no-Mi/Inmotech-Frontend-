@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
 import logo from "../assets/logo_new_inmotech.svg";
 
-
 export default function Navbar() {
     const { user, logout } = useContext(AuthContext);
     const [menuOpen, setMenuOpen] = useState(false);
@@ -30,7 +29,7 @@ export default function Navbar() {
                                     Crear Propiedad
                                 </Link>
                                 {user.idAgencia ? (
-                                    <Link to="/detail-agency" className="text-label-md text-on-surface-variant hover:text-primary transition-colors">
+                                    <Link to="/my-agency" className="text-label-md text-on-surface-variant hover:text-primary transition-colors">
                                         Mi Agencia
                                     </Link>
                                 ) : (
@@ -38,7 +37,7 @@ export default function Navbar() {
                                         Crear Agencia
                                     </Link>
                                 )}
-                                <Link to="/usuario" className="text-label-md text-on-surface-variant hover:text-primary transition-colors">
+                                <Link to="/my-profile" className="text-label-md text-on-surface-variant hover:text-primary transition-colors">
                                     {user.nombre}
                                 </Link>
                                 <button
@@ -79,7 +78,7 @@ export default function Navbar() {
                                 Crear Propiedad
                             </Link>
                             {user.idAgencia ? (
-                                <Link to="/detail-agency" className="block text-label-md text-on-surface-variant hover:text-primary">
+                                <Link to="/my-agency" className="block text-label-md text-on-surface-variant hover:text-primary">
                                     Mi Agencia
                                 </Link>
                             ) : (
@@ -87,7 +86,7 @@ export default function Navbar() {
                                     Crear Agencia
                                 </Link>
                             )}
-                            <Link to="/usuario" className="block text-label-md text-on-surface-variant hover:text-primary">
+                            <Link to="/my-profile" className="block text-label-md text-on-surface-variant hover:text-primary">
                                 {user.nombre}
                             </Link>
                             <button onClick={logout} className="block text-label-md text-error">
