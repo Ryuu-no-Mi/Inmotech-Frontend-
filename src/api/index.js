@@ -2,11 +2,29 @@ import axios from "axios";
 
 export const api = axios.create({
     baseURL: "http://localhost:8080/api",
+    paramsSerializer: (params) => {
+        return Object.entries(params)
+            .flatMap(([k, v]) =>
+                Array.isArray(v)
+                    ? v.map(item => `${encodeURIComponent(k)}=${encodeURIComponent(item)}`)
+                    : [`${encodeURIComponent(k)}=${encodeURIComponent(v)}`]
+            )
+            .join('&');
+    }
 });
 
 // Cliente sin token para llamadas públicas
 export const publicApi = axios.create({
     baseURL: "http://localhost:8080/api",
+    paramsSerializer: (params) => {
+        return Object.entries(params)
+            .flatMap(([k, v]) =>
+                Array.isArray(v)
+                    ? v.map(item => `${encodeURIComponent(k)}=${encodeURIComponent(item)}`)
+                    : [`${encodeURIComponent(k)}=${encodeURIComponent(v)}`]
+            )
+            .join('&');
+    }
 });
 
 export const BASE_URL_IMG = "http://localhost:8080";
@@ -38,12 +56,15 @@ export const buildSearchParams = (filters) => {
     if (filters.texto) params.texto = filters.texto;
     if (filters.ciudad) params.ciudad = filters.ciudad;
     if (filters.provincia) params.provincia = filters.provincia;
-    if (filters.tipo) params.tipo = filters.tipo;
-    if (filters.tipoAgrupado) params.tipo = filters.tipoAgrupado;
     if (filters.precioMin) params.precioMin = filters.precioMin;
     if (filters.precioMax) params.precioMax = filters.precioMax;
     if (filters.superficieMin) params.superficieMin = filters.superficieMin;
     if (filters.superficieMax) params.superficieMax = filters.superficieMax;
+    if (filters.tipos && Array.isArray(filters.tipos)) {
+        params.tipos = filters.tipos;
+    } else if (filters.tipo) {
+        params.tipo = filters.tipo;
+    }
     return params;
 };
 
