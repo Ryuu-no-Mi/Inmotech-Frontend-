@@ -31,6 +31,13 @@ export default function EditProperty() {
                 codigoPostal: propiedad.codigoPostal ?? "",
                 latitud: propiedad.latitud ?? "",
                 longitud: propiedad.longitud ?? "",
+                numHabitaciones: propiedad.numHabitaciones ?? "",
+                numBanios: propiedad.numBanios ?? "",
+                parking: propiedad.parking ?? "",
+                tipoPropiedad: propiedad.tipoPropiedad ?? "",
+                anioConstruccion: propiedad.anioConstruccion ?? "",
+                estadoPropiedad: propiedad.estadoPropiedad ?? "",
+                certificacionEnergetica: propiedad.certificacionEnergetica ?? "",
                 idUsuario: propiedad.idUsuario,
                 idAgencia: propiedad.idAgencia,
             });
@@ -216,6 +223,80 @@ export default function EditProperty() {
                     className="w-full p-2 border rounded"
                     placeholder="Longitud"
                 />
+                <input
+                    name="numHabitaciones"
+                    type="number"
+                    value={form.numHabitaciones ?? ""}
+                    onChange={handleChange}
+                    className="w-full p-2 border rounded"
+                    placeholder="Habitaciones"
+                />
+                <input
+                    name="numBanios"
+                    type="number"
+                    value={form.numBanios ?? ""}
+                    onChange={handleChange}
+                    className="w-full p-2 border rounded"
+                    placeholder="Baños"
+                />
+                <input
+                    name="parking"
+                    value={form.parking ?? ""}
+                    onChange={handleChange}
+                    className="w-full p-2 border rounded"
+                    placeholder="Parking"
+                />
+                <select
+                    name="tipoPropiedad"
+                    value={form.tipoPropiedad ?? ""}
+                    onChange={handleChange}
+                    className="w-full p-2 border rounded bg-white"
+                >
+                    <option value="">Tipo de propiedad</option>
+                    <option value="PISO">Piso</option>
+                    <option value="CASA">Casa</option>
+                    <option value="DUPLEX">Dúplex</option>
+                    <option value="ATICO">Ático</option>
+                    <option value="PENTHOUSE">Penthouse</option>
+                    <option value="ESTUDIO">Estudio</option>
+                    <option value="VILLA">Villa</option>
+                    <option value="CHALET">Chalet</option>
+                </select>
+                <input
+                    name="anioConstruccion"
+                    type="number"
+                    value={form.anioConstruccion ?? ""}
+                    onChange={handleChange}
+                    className="w-full p-2 border rounded"
+                    placeholder="Año de construcción"
+                />
+                <select
+                    name="estadoPropiedad"
+                    value={form.estadoPropiedad ?? ""}
+                    onChange={handleChange}
+                    className="w-full p-2 border rounded bg-white"
+                >
+                    <option value="">Estado de la propiedad</option>
+                    <option value="NUEVO">Nuevo</option>
+                    <option value="BUEN_ESTADO">Buen estado</option>
+                    <option value="REFORMAR">Para reformar</option>
+                    <option value="REMOBLADO">Remodelado</option>
+                </select>
+                <select
+                    name="certificacionEnergetica"
+                    value={form.certificacionEnergetica ?? ""}
+                    onChange={handleChange}
+                    className="w-full p-2 border rounded bg-white"
+                >
+                    <option value="">Certificación energética</option>
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                    <option value="D">D</option>
+                    <option value="E">E</option>
+                    <option value="F">F</option>
+                    <option value="G">G</option>
+                </select>
 
                 {/* Seccion de la imagenes */}
                 <div className="md:col-span-2">
