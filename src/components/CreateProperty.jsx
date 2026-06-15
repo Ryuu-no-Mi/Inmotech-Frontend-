@@ -11,6 +11,7 @@ export default function CreateProperty() {
     const [form, setForm] = useState({
         titulo: "",
         descripcion: "",
+        operacion: "VENTA",
         precio: "",
         superficie: "",
         direccion: "",
@@ -143,6 +144,23 @@ export default function CreateProperty() {
                         className="w-full p-2 border rounded"
                         placeholder="Descripción de la propiedad"
                     />
+                </div>
+
+                <div>
+                    <label className="block text-sm font-medium mb-1">
+                        Operación
+                    </label>
+                    <select
+                        name="operacion"
+                        value={form.operacion}
+                        onChange={handleChange}
+                        required
+                        className="w-full p-2 border rounded bg-white"
+                    >
+                        <option value="VENTA">Venta</option>
+                        <option value="ALQUILER">Alquiler</option>
+                        <option value="OBRA_NUEVA">Obra Nueva</option>
+                    </select>
                 </div>
 
                 <div>
