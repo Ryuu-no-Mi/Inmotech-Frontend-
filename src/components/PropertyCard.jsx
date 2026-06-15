@@ -80,7 +80,7 @@ export default function PropertyCard({
                 <div className="flex justify-between items-start mb-3">
                     <h3 className="text-headline-lg font-bold text-primary">
                         {formatPrice(prop.precio)}
-                        <span className="text-label-lg text-on-surface-variant font-normal ml-1">
+                        <span className="text-label-lg text-indigo-400 font-normal ml-1">
                             {prop.operacion === "ALQUILER" ? "€/mes" : "€"}
                         </span>
                     </h3>
@@ -100,16 +100,16 @@ export default function PropertyCard({
                             <span className="text-label-md font-medium">{prop.superficie} m²</span>
                         </div>
                     )}
-                    {prop.habitaciones && (
+                    {prop.numHabitaciones && (
                         <div className="flex items-center gap-2 text-on-surface-variant">
                             <Bed className="w-4 h-4 text-primary" />
-                            <span className="text-label-md font-medium">{prop.habitaciones} Hab.</span>
+                            <span className="text-label-md font-medium">{prop.numHabitaciones} Hab.</span>
                         </div>
                     )}
-                    {prop.banos && (
+                    {prop.numBanios && (
                         <div className="flex items-center gap-2 text-on-surface-variant">
                             <Bath className="w-4 h-4 text-primary" />
-                            <span className="text-label-md font-medium">{prop.banos} Baños</span>
+                            <span className="text-label-md font-medium">{prop.numBanios} Baños</span>
                         </div>
                     )}
                     {prop.plantas && (

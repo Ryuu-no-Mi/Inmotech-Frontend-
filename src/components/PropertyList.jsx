@@ -121,8 +121,8 @@ export default function PropertyList() {
                 </div>
             ) : (
                 <>
-                    <p className="text-label-md text-on-surface-variant mb-4">
-                        {totalElements} propiedades encontradas
+                    <p className="text-headline-md text-primary font-semibold my-4">
+                        {totalElements.toLocaleString()} propiedades encontradas
                     </p>
                     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                         {properties.map((prop) => (

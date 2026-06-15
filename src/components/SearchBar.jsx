@@ -93,11 +93,7 @@ export default function SearchBar({ onSearch, facetas = null, currentFilters = {
             .slice(0, 20)
         : [];
 
-    const countByTipoGroup = (group) => {
-        if (!facetas?.tipos) return 0;
-        const tipos = group === "Piso" ? TIPOS_PISO : group === "Casa" ? TIPOS_CASA : [];
-        return tipos.reduce((sum, t) => sum + (facetas.tipos[t] || 0), 0);
-    };
+    
 
     return (
         <div className="bg-surface rounded-lg border border-outline-variant shadow-surface p-4">
@@ -296,23 +292,19 @@ export default function SearchBar({ onSearch, facetas = null, currentFilters = {
 
                     {facetas && (
                         <div className="flex flex-wrap gap-3 mt-4 pt-4 border-t border-outline-variant">
-                            {["Piso", "Casa"].map((group) => {
-                                const count = countByTipoGroup(group);
-                                if (count === 0) return null;
-                                return (
-                                    <button
-                                        key={group}
-                                        onClick={() => handleFacetaTipo(group)}
-                                        className={`text-label-md px-4 py-2 rounded-full border transition-all duration-200 ${
-                                            tipoAgrupado === group
-                                                ? "bg-primary text-white border-primary"
-                                                : "bg-surface-container text-on-surface-variant border-outline hover:border-primary hover:text-primary"
-                                        }`}
-                                    >
-                                        {group} ({count})
-                                    </button>
-                                );
-                            })}
+                            {["Piso", "Casa"].map((group) => (
+                                <button
+                                    key={group}
+                                    onClick={() => handleFacetaTipo(group)}
+                                    className={`text-label-md px-4 py-2 rounded-full border transition-all duration-200 ${
+                                        tipoAgrupado === group
+                                            ? "bg-primary text-white border-primary"
+                                            : "bg-surface-container text-on-surface-variant border-outline hover:border-primary hover:text-primary"
+                                    }`}
+                                >
+                                    {group}
+                                </button>
+                            ))}
                         </div>
                     )}
                 </div>
