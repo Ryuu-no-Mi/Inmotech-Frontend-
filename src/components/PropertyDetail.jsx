@@ -139,11 +139,10 @@ export default function PropertyDetail() {
                                 {property.superficie} m²
                             </p>
                             <p>
-                                <strong>latitud:</strong> {property.latitud} m²
+                                <strong>Latitud:</strong> {property.latitud}
                             </p>
                             <p>
-                                <strong>longitud:</strong> {property.longitud}{" "}
-                                m²
+                                <strong>Longitud:</strong> {property.longitud}
                             </p>
                             <p>
                                 <strong>Tipo:</strong>{" "}
@@ -156,6 +155,10 @@ export default function PropertyDetail() {
                             <p>
                                 <strong>Baños:</strong>{" "}
                                 {property.numBanios || "N/A"}
+                            </p>
+                            <p>
+                                <strong>Parking:</strong>{" "}
+                                {property.parking || "N/A"}
                             </p>
                             <p>
                                 <strong>Año de Construcción:</strong>{" "}
