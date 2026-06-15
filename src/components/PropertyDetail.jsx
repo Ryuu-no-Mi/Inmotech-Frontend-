@@ -150,11 +150,11 @@ export default function PropertyDetail() {
                             </p>
                             <p>
                                 <strong>Habitaciones:</strong>{" "}
-                                {property.numHabitaciones || "N/A"}
+                                {property.habitaciones || "N/A"}
                             </p>
                             <p>
                                 <strong>Baños:</strong>{" "}
-                                {property.numBanios || "N/A"}
+                                {property.banos || "N/A"}
                             </p>
                             <p>
                                 <strong>Parking:</strong>{" "}

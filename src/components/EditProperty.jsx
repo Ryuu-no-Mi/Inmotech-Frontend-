@@ -31,8 +31,8 @@ export default function EditProperty() {
                 codigoPostal: propiedad.codigoPostal ?? "",
                 latitud: propiedad.latitud ?? "",
                 longitud: propiedad.longitud ?? "",
-                numHabitaciones: propiedad.numHabitaciones ?? "",
-                numBanios: propiedad.numBanios ?? "",
+                habitaciones: propiedad.habitaciones ?? "",
+                banos: propiedad.banos ?? "",
                 parking: propiedad.parking ?? "",
                 tipoPropiedad: propiedad.tipoPropiedad ?? "",
                 anioConstruccion: propiedad.anioConstruccion ?? "",
@@ -224,17 +224,17 @@ export default function EditProperty() {
                     placeholder="Longitud"
                 />
                 <input
-                    name="numHabitaciones"
+                    name="habitaciones"
                     type="number"
-                    value={form.numHabitaciones ?? ""}
+                    value={form.habitaciones ?? ""}
                     onChange={handleChange}
                     className="w-full p-2 border rounded"
                     placeholder="Habitaciones"
                 />
                 <input
-                    name="numBanios"
+                    name="banos"
                     type="number"
-                    value={form.numBanios ?? ""}
+                    value={form.banos ?? ""}
                     onChange={handleChange}
                     className="w-full p-2 border rounded"
                     placeholder="Baños"

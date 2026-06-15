@@ -20,8 +20,8 @@ export default function CreateProperty() {
         codigoPostal: "",
         latitud: "",
         longitud: "",
-        numHabitaciones: "",
-        numBanios: "",
+        habitaciones: "",
+        banos: "",
         parking: "",
         tipoPropiedad: "",
         anioConstruccion: "",
@@ -291,8 +291,8 @@ export default function CreateProperty() {
                     </label>
                     <input
                         type="number"
-                        name="numHabitaciones"
-                        value={form.numHabitaciones}
+                        name="habitaciones"
+                        value={form.habitaciones}
                         onChange={handleChange}
                         className="w-full p-2 border rounded"
                         placeholder="Número de habitaciones"
@@ -305,8 +305,8 @@ export default function CreateProperty() {
                     </label>
                     <input
                         type="number"
-                        name="numBanios"
-                        value={form.numBanios}
+                        name="banos"
+                        value={form.banos}
                         onChange={handleChange}
                         className="w-full p-2 border rounded"
                         placeholder="Número de baños"
