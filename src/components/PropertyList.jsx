@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback, useRef, useContext } from "react";
 import { useSearchParams } from "react-router-dom";
-import { api, publicApi, buildSearchParams, parsePaginatedResponse } from "../api";
+import { publicApi, buildSearchParams, parsePaginatedResponse } from "../api";
 import SearchBar from "./SearchBar";
 import PropertyCard from "./PropertyCard";
 import Pagination from "./common/Pagination";

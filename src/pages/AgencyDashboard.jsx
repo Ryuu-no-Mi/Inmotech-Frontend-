@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
-import { api, publicApi } from "../api";
+import { publicApi } from "../api";
 import ProfileSidebar from "../components/ProfileSidebar";
 import PropertyCard from "../components/PropertyCard";
 import { Building2, MapPin, Phone, Mail, Users, Plus, MessageSquare } from "lucide-react";

@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { api } from "../api";
+import { api, BASE_URL_IMG } from "../api";
 import BtnVolver from "../components/BtnInicio";
 
 export default function DashboardUser() {
@@ -118,7 +118,7 @@ export default function DashboardUser() {
                         <img
                             src={
                                 user.imagenUrl
-                                    ? `http://localhost:8080${user.imagenUrl.replace(/\\/g,"/")}`
+                                    ? `${BASE_URL_IMG}${user.imagenUrl.replace(/\\/g,"/")}`
                                     : "https://img.freepik.com/vector-premium/icono-circulo-usuario-anonimo-ilustracion-vector-estilo-plano-sombra_520826-1931.jpg"
                             }
                             alt="Imagen de perfil"

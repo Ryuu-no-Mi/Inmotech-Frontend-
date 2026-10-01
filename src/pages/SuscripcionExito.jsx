@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { CheckCircle } from "lucide-react";
 import { api } from "../api";
 
 export default function SuscripcionExito() {
-    const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [confirmed, setConfirmed] = useState(false);
 
@@ -16,7 +15,7 @@ export default function SuscripcionExito() {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setConfirmed(true);
-        } catch (err) {
+        } catch {
             alert("Error al confirmar la suscripción. Intenta de nuevo.");
             setLoading(false);
         }

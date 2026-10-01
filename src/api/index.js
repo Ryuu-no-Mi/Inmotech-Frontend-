@@ -1,7 +1,10 @@
 import axios from "axios";
 
+export const BACKEND_URL = (import.meta.env.VITE_API_URL || "http://localhost:8080").replace(/\/$/, "");
+export const API_BASE_URL = `${BACKEND_URL}/api`;
+
 export const api = axios.create({
-    baseURL: "http://localhost:8080/api",
+    baseURL: API_BASE_URL,
     paramsSerializer: (params) => {
         return Object.entries(params)
             .flatMap(([k, v]) =>
@@ -15,7 +18,7 @@ export const api = axios.create({
 
 // Cliente sin token para llamadas públicas
 export const publicApi = axios.create({
-    baseURL: "http://localhost:8080/api",
+    baseURL: API_BASE_URL,
     paramsSerializer: (params) => {
         return Object.entries(params)
             .flatMap(([k, v]) =>
@@ -27,7 +30,7 @@ export const publicApi = axios.create({
     }
 });
 
-export const BASE_URL_IMG = "http://localhost:8080";
+export const BASE_URL_IMG = BACKEND_URL;
 
 // Helper para paginación
 export const buildPaginationParams = (page, size, sort = "fechaPublicacion", direction = "desc") => ({

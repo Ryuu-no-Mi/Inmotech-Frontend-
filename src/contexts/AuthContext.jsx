@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from "react";
-import { api, publicApi } from "../api";
+import { api, publicApi, API_BASE_URL } from "../api";
 
 export const AuthContext = createContext();
 
@@ -96,7 +96,7 @@ export function AuthProvider({ children }) {
             const me = (await api.get("/user/me")).data;
 
             const res = await fetch(
-                `http://localhost:8080/api/imageUser/${me.id}`,
+                `${API_BASE_URL}/imageUser/${me.id}`,
                 {
                     method: "POST",
                     body: formData,

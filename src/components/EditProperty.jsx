@@ -2,7 +2,7 @@ import { useContext, useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
 import BtnInicio from "./BtnInicio";
-import { api, BASE_URL_IMG } from "../api";
+import { api, API_BASE_URL, BASE_URL_IMG } from "../api";
 
 export default function EditProperty() {
     const { id } = useParams();
@@ -61,7 +61,7 @@ export default function EditProperty() {
         if (!window.confirm("¿Eliminar esta imagen permanentemente?")) return;
 
         try {
-            await fetch(`http://localhost:8080/api/image/${imagenId}`, {
+            await fetch(`${API_BASE_URL}/image/${imagenId}`, {
                 method: "DELETE",
             });
             setImagenes((prev) => prev.filter((img) => img.id !== imagenId));
@@ -83,7 +83,7 @@ export default function EditProperty() {
             delete payload.idAgencia;
 
             const res = await fetch(
-                `http://localhost:8080/api/property/${id}`,
+                `${API_BASE_URL}/property/${id}`,
                 {
                     method: "PUT",
                     headers: {
