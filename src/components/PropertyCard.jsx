@@ -24,6 +24,8 @@ export default function PropertyCard({
 
     const formatPrice = (price) => {
         return new Intl.NumberFormat("es-ES").format(price);
+    
+    print(prop)
     };
 
     return (
@@ -80,7 +82,7 @@ export default function PropertyCard({
                 <div className="flex justify-between items-start mb-3">
                     <h3 className="text-headline-lg font-bold text-primary">
                         {formatPrice(prop.precio)}
-                        <span className="text-label-lg text-on-surface-variant font-normal ml-1">
+                        <span className="text-label-lg text-indigo-400 font-normal ml-1">
                             {prop.operacion === "ALQUILER" ? "€/mes" : "€"}
                         </span>
                     </h3>

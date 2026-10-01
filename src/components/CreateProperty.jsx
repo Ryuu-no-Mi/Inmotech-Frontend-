@@ -11,6 +11,7 @@ export default function CreateProperty() {
     const [form, setForm] = useState({
         titulo: "",
         descripcion: "",
+        operacion: "VENTA",
         precio: "",
         superficie: "",
         direccion: "",
@@ -19,6 +20,13 @@ export default function CreateProperty() {
         codigoPostal: "",
         latitud: "",
         longitud: "",
+        habitaciones: "",
+        banos: "",
+        parking: "",
+        tipoPropiedad: "",
+        anioConstruccion: "",
+        estadoPropiedad: "",
+        certificacionEnergetica: "",
         imagenes: [],
     });
 
@@ -136,6 +144,23 @@ export default function CreateProperty() {
                         className="w-full p-2 border rounded"
                         placeholder="Descripción de la propiedad"
                     />
+                </div>
+
+                <div>
+                    <label className="block text-sm font-medium mb-1">
+                        Operación
+                    </label>
+                    <select
+                        name="operacion"
+                        value={form.operacion}
+                        onChange={handleChange}
+                        required
+                        className="w-full p-2 border rounded bg-white"
+                    >
+                        <option value="VENTA">Venta</option>
+                        <option value="ALQUILER">Alquiler</option>
+                        <option value="OBRA_NUEVA">Obra Nueva</option>
+                    </select>
                 </div>
 
                 <div>
@@ -258,6 +283,123 @@ export default function CreateProperty() {
                         className="w-full p-2 border rounded"
                         placeholder="Longitud"
                     />
+                </div>
+
+                <div>
+                    <label className="block text-sm font-medium mb-1">
+                        Habitaciones
+                    </label>
+                    <input
+                        type="number"
+                        name="habitaciones"
+                        value={form.habitaciones}
+                        onChange={handleChange}
+                        className="w-full p-2 border rounded"
+                        placeholder="Número de habitaciones"
+                    />
+                </div>
+
+                <div>
+                    <label className="block text-sm font-medium mb-1">
+                        Baños
+                    </label>
+                    <input
+                        type="number"
+                        name="banos"
+                        value={form.banos}
+                        onChange={handleChange}
+                        className="w-full p-2 border rounded"
+                        placeholder="Número de baños"
+                    />
+                </div>
+
+                <div>
+                    <label className="block text-sm font-medium mb-1">
+                        Parking
+                    </label>
+                    <input
+                        type="text"
+                        name="parking"
+                        value={form.parking}
+                        onChange={handleChange}
+                        className="w-full p-2 border rounded"
+                        placeholder="Plaza de parking"
+                    />
+                </div>
+
+                <div>
+                    <label className="block text-sm font-medium mb-1">
+                        Tipo de Propiedad
+                    </label>
+                    <select
+                        name="tipoPropiedad"
+                        value={form.tipoPropiedad}
+                        onChange={handleChange}
+                        className="w-full p-2 border rounded bg-white"
+                    >
+                        <option value="">Seleccionar tipo</option>
+                        <option value="PISO">Piso</option>
+                        <option value="CASA">Casa</option>
+                        <option value="DUPLEX">Dúplex</option>
+                        <option value="ATICO">Ático</option>
+                        <option value="PENTHOUSE">Penthouse</option>
+                        <option value="ESTUDIO">Estudio</option>
+                        <option value="VILLA">Villa</option>
+                        <option value="CHALET">Chalet</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label className="block text-sm font-medium mb-1">
+                        Año de Construcción
+                    </label>
+                    <input
+                        type="number"
+                        name="anioConstruccion"
+                        value={form.anioConstruccion}
+                        onChange={handleChange}
+                        className="w-full p-2 border rounded"
+                        placeholder="Año de construcción"
+                    />
+                </div>
+
+                <div>
+                    <label className="block text-sm font-medium mb-1">
+                        Estado de la Propiedad
+                    </label>
+                    <select
+                        name="estadoPropiedad"
+                        value={form.estadoPropiedad}
+                        onChange={handleChange}
+                        className="w-full p-2 border rounded bg-white"
+                    >
+                        <option value="">Seleccionar estado</option>
+                        <option value="NUEVO">Nuevo</option>
+                        <option value="BUEN_ESTADO">Buen estado</option>
+                        <option value="REFORMAR">Para reformar</option>
+                        <option value="REMODELADO">Remodelado</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label className="block text-sm font-medium mb-1">
+                        Certificación Energética
+                    </label>
+                    <select
+                        name="certificacionEnergetica"
+                        value={form.certificacionEnergetica}
+                        onChange={handleChange}
+                        className="w-full p-2 border rounded bg-white"
+                    >
+                        <option value="">Seleccionar certificación</option>
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                        <option value="D">D</option>
+                        <option value="E">E</option>
+                        <option value="F">F</option>
+                        <option value="G">G</option>
+                    </select>
                 </div>
 
                 {/* <div>
