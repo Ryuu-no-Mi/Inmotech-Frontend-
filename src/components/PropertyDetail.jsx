@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import { Heart, HeartOff } from "lucide-react";
 import SearchBar from "./SearchBar";
-import { BASE_URL_IMG } from "../api";
+import { API_BASE_URL, BASE_URL_IMG } from "../api";
 
 
 export default function PropertyDetail() {
@@ -14,7 +14,7 @@ export default function PropertyDetail() {
 
     useEffect(() => {
         // console.log("PropertyDetail useEffect (Property Fetch) - id:", id);
-        fetch(`http://localhost:8080/api/property/${id}`)
+        fetch(`${API_BASE_URL}/property/${id}`)
             .then((res) => {
                 if (!res.ok) {
                     throw new Error(`Error HTTP: ${res.status}`);
@@ -41,7 +41,7 @@ export default function PropertyDetail() {
         // );
 
             if (property?.idUsuario && !user) {
-                fetch(`http://localhost:8080/api/user/${property.idUsuario}`)
+                fetch(`${API_BASE_URL}/user/${property.idUsuario}`)
                     .then((res) => {
                         if (!res.ok) throw new Error(`Error HTTP: ${res.status}`);
                         return res.json();
@@ -51,7 +51,7 @@ export default function PropertyDetail() {
         
                         // 🚀 Nueva petición si tiene agencia
                         if (userData.idAgencia) {
-                            fetch(`http://localhost:8080/api/agency/${userData.idAgencia}`)
+                            fetch(`${API_BASE_URL}/agency/${userData.idAgencia}`)
                                 .then((res) => res.json())
                                 .then((agencyData) => {
                                     setUser((prevUser) => ({
@@ -301,7 +301,7 @@ export default function PropertyDetail() {
                                         return;
                                     }
 
-                                    fetch("http://localhost:8080/api/inquiry", {
+                                    fetch(`${API_BASE_URL}/inquiry`, {
                                         method: "POST",
                                         headers: {
                                             "Content-Type": "application/json",

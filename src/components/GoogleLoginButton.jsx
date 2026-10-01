@@ -1,4 +1,4 @@
-const BACKEND_URL = "http://localhost:8080";
+import { BACKEND_URL } from "../api";
 
 export default function GoogleLoginButton() {
     const handleGoogleLogin = () => {

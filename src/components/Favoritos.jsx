@@ -1,6 +1,7 @@
 // Favoritos.jsx
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../api";
 
 export default function Favoritos() {
     const userId = 2; // ← el ID real del usuario autenticado
@@ -8,7 +9,7 @@ export default function Favoritos() {
     const [favoritos, setFavoritos] = useState([]);
 
     useEffect(() => {
-        fetch(`http://localhost:8080/api/favourite/${userId}`)
+        fetch(`${API_BASE_URL}/favourite/${userId}`)
             .then((res) => res.json())
             .then((data) => setFavoritos(data.map((f) => f.propiedad)))
             .catch((err) => console.error("Error al obtener favoritos:", err));

@@ -24,8 +24,7 @@ export default function PropertyCard({
 
     const formatPrice = (price) => {
         return new Intl.NumberFormat("es-ES").format(price);
-    
-    print(prop)
+
     };
 
     return (
@@ -102,16 +101,16 @@ export default function PropertyCard({
                             <span className="text-label-md font-medium">{prop.superficie} m²</span>
                         </div>
                     )}
-                    {prop.habitaciones && (
+                    {prop.numHabitaciones && (
                         <div className="flex items-center gap-2 text-on-surface-variant">
                             <Bed className="w-4 h-4 text-primary" />
-                            <span className="text-label-md font-medium">{prop.habitaciones} Hab.</span>
+                            <span className="text-label-md font-medium">{prop.numHabitaciones} Hab.</span>
                         </div>
                     )}
-                    {prop.banos && (
+                    {prop.numBanios && (
                         <div className="flex items-center gap-2 text-on-surface-variant">
                             <Bath className="w-4 h-4 text-primary" />
-                            <span className="text-label-md font-medium">{prop.banos} Baños</span>
+                            <span className="text-label-md font-medium">{prop.numBanios} Baños</span>
                         </div>
                     )}
                     {prop.plantas && (

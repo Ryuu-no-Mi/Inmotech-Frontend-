@@ -11,6 +11,7 @@ const TIPO_GRUPO_MAP = {
 export default function SearchBar({ onSearch, facetas = null, currentFilters = {} }) {
     const [operacion, setOperacion] = useState(currentFilters.operacion || "VENTA");
     const [texto, setTexto] = useState(currentFilters.texto || "");
+    const [comunidad, setComunidad] = useState(currentFilters.comunidad || "");
     const [ciudad, setCiudad] = useState(currentFilters.ciudad || "");
     const [distrito, setDistrito] = useState(currentFilters.distrito || "");
     const [barrio, setBarrio] = useState(currentFilters.barrio || "");
@@ -26,6 +27,7 @@ export default function SearchBar({ onSearch, facetas = null, currentFilters = {
         onSearch({
             operacion,
             texto,
+            comunidad,
             ciudad,
             distrito,
             barrio,
@@ -36,11 +38,12 @@ export default function SearchBar({ onSearch, facetas = null, currentFilters = {
             superficieMin,
             superficieMax
         });
-    }, [operacion, texto, ciudad, distrito, barrio, tipoAgrupado, precioMin, precioMax, superficieMin, superficieMax, onSearch]);
+    }, [operacion, texto, comunidad, ciudad, distrito, barrio, tipoAgrupado, precioMin, precioMax, superficieMin, superficieMax, onSearch]);
 
     const handleClear = useCallback(() => {
         setOperacion("VENTA");
         setTexto("");
+        setComunidad("");
         setCiudad("");
         setDistrito("");
         setBarrio("");
@@ -62,8 +65,18 @@ export default function SearchBar({ onSearch, facetas = null, currentFilters = {
         setDistrito("");
         setBarrio("");
         const tipos = tipoAgrupado ? TIPO_GRUPO_MAP[tipoAgrupado] : undefined;
-        onSearch({ operacion, texto, ciudad: ciu, distrito: "", barrio: "", tipos, tipoAgrupado, precioMin, precioMax, superficieMin, superficieMax });
-    }, [tipoAgrupado, operacion, texto, precioMin, precioMax, superficieMin, superficieMax, onSearch]);
+        onSearch({ operacion, texto, comunidad, ciudad: ciu, distrito: "", barrio: "", tipos, tipoAgrupado, precioMin, precioMax, superficieMin, superficieMax });
+    }, [comunidad, tipoAgrupado, operacion, texto, precioMin, precioMax, superficieMin, superficieMax, onSearch]);
+
+    const handleFacetaComunidad = useCallback((com) => {
+        const newComunidad = comunidad === com ? "" : com;
+        setComunidad(newComunidad);
+        setCiudad("");
+        setDistrito("");
+        setBarrio("");
+        const tipos = tipoAgrupado ? TIPO_GRUPO_MAP[tipoAgrupado] : undefined;
+        onSearch({ operacion, texto, comunidad: newComunidad, ciudad: "", distrito: "", barrio: "", tipos, tipoAgrupado, precioMin, precioMax, superficieMin, superficieMax });
+    }, [comunidad, tipoAgrupado, operacion, texto, precioMin, precioMax, superficieMin, superficieMax, onSearch]);
 
     const handleFacetaDistrito = useCallback((dist) => {
         const newDist = distrito === dist ? "" : dist;
@@ -89,6 +102,12 @@ export default function SearchBar({ onSearch, facetas = null, currentFilters = {
 
     const groupedCiudades = facetas?.ciudades
         ? Object.entries(facetas.ciudades)
+            .filter(([ciu]) => {
+                if (!comunidad) return true;
+                const comunidadesData = facetas.comunidades || {};
+                const ciudadesDeComunidad = comunidadesData[comunidad] || {};
+                return Object.keys(ciudadesDeComunidad).includes(ciu);
+            })
             .sort((a, b) => b[1] - a[1])
             .slice(0, 20)
         : [];
@@ -161,12 +180,46 @@ export default function SearchBar({ onSearch, facetas = null, currentFilters = {
                         className="text-primary hover:text-primary/80 font-semibold px-3 py-1 flex items-center gap-1 text-label-md"
                     >
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12SlidersHorizontal" />
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                         </svg>
                         {mostrarFiltros ? "Ocultar" : "Filtros"}
                     </button>
                 </div>
             </div>
+
+            {facetas && facetas.comunidades && Object.keys(facetas.comunidades).length > 0 && (
+                <div className="flex items-center gap-3 mb-2">
+                    <select
+                        value={comunidad}
+                        onChange={(e) => handleFacetaComunidad(e.target.value)}
+                        className="flex-1 max-w-xs px-3 py-2.5 border border-outline rounded-lg bg-surface focus:outline-none focus:ring-2 focus:ring-primary text-body-md"
+                    >
+                        <option value="">Todas las comunidades</option>
+                        {Object.entries(facetas.comunidades)
+                            .sort((a, b) => {
+                                const totalA = Object.values(a[1]).reduce((sum, c) => sum + c, 0);
+                                const totalB = Object.values(b[1]).reduce((sum, c) => sum + c, 0);
+                                return totalB - totalA;
+                            })
+                            .map(([com, ciudades]) => {
+                                const total = Object.values(ciudades).reduce((sum, c) => sum + c, 0);
+                                return (
+                                    <option key={com} value={com}>
+                                        {com} ({total})
+                                    </option>
+                                );
+                            })}
+                    </select>
+                    {comunidad && (
+                        <button
+                            onClick={() => handleFacetaComunidad("")}
+                            className="text-on-surface-variant hover:text-primary text-label-md"
+                        >
+                            Limpiar
+                        </button>
+                    )}
+                </div>
+            )}
 
             {facetas && groupedCiudades.length > 0 && (
                 <div className="flex items-center gap-3 mb-2">
@@ -310,9 +363,15 @@ export default function SearchBar({ onSearch, facetas = null, currentFilters = {
                 </div>
             )}
 
-            {(ciudad || tipoAgrupado || precioMin || precioMax || superficieMin || superficieMax || distrito || barrio) && (
+            {(comunidad || ciudad || tipoAgrupado || precioMin || precioMax || superficieMin || superficieMax || distrito || barrio) && (
                 <div className="mt-4 flex gap-2 flex-wrap items-center">
                     <span className="text-label-md text-on-surface-variant">Filtros activos:</span>
+                    {comunidad && (
+                        <span className="inline-flex items-center gap-1 text-label-md bg-secondary-container text-secondary px-3 py-1.5 rounded-full">
+                            {comunidad}
+                            <button onClick={() => handleFacetaComunidad("")} className="font-bold hover:text-secondary/70 ml-1">×</button>
+                        </span>
+                    )}
                     {ciudad && (
                         <span className="inline-flex items-center gap-1 text-label-md bg-primary-container text-primary px-3 py-1.5 rounded-full">
                             {ciudad}

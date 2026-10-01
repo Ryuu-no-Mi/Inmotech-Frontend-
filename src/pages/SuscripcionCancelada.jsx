@@ -1,9 +1,7 @@
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { XCircle } from "lucide-react";
 
 export default function SuscripcionCancelada() {
-    const navigate = useNavigate();
-
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-50">
             <div className="bg-white rounded-2xl shadow-xl p-10 max-w-md w-full text-center">

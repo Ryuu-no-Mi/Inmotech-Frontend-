@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../api";
 
 export default function DeleteUser() {
     const { user, logout } = useContext(AuthContext);
@@ -17,7 +18,7 @@ export default function DeleteUser() {
 
         try {
             const res = await fetch(
-                `http://localhost:8080/api/user/${user.id}`,
+                `${API_BASE_URL}/user/${user.id}`,
                 {
                     method: "DELETE",
                     headers: {

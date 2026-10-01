@@ -2,7 +2,7 @@ import { useState } from "react";
 
 const STRIPE_PAYMENT_LINK = "https://buy.stripe.com/test_dRmfZh2Da9Wd7Ik7PndIA00";
 
-export default function StripeCheckoutButton({ onSuccess, onCancel }) {
+export default function StripeCheckoutButton() {
     const [loading, setLoading] = useState(false);
 
     const handleCheckout = () => {

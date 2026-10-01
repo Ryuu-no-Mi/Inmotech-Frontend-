@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import BtnVolver from "./BtnInicio";
+import { API_BASE_URL } from "../api";
 
 export default function EditProfile() {
     const { user } = useContext(AuthContext);
@@ -73,7 +74,7 @@ export default function EditProfile() {
             console.log("Imagen seleccionada:", data.imagenFile);
 
             const res = await fetch(
-                `http://localhost:8080/api/user/${user.id}`,
+                `${API_BASE_URL}/user/${user.id}`,
                 {
                     method: "PUT",
                     headers: {
@@ -97,7 +98,7 @@ export default function EditProfile() {
 
                 try {
                     const imgRes = await fetch(
-                        `http://localhost:8080/api/imageUser/${user.id}`,
+                        `${API_BASE_URL}/imageUser/${user.id}`,
                         {
                             method: "POST",
                             body: formData,
