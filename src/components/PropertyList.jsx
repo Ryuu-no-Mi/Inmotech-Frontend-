@@ -37,6 +37,8 @@ export default function PropertyList() {
                 params,
                 signal: facetasControllerRef.current.signal
             });
+            console.log("Response from API (facetas):", res.data);
+            
             setFacetas(res.data);
         } catch (err) {
             if (err.code !== "ERR_CANCELED") {
