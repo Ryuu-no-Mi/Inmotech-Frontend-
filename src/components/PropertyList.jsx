@@ -65,7 +65,11 @@ export default function PropertyList() {
                 signal: requestControllerRef.current.signal
             });
 
+            console.log("Response from API:", res.data);
+
             const parsed = parsePaginatedResponse(res);
+
+            console.log("Parsed response:", parsed);
 
             setProperties(parsed.data);
             setTotalPages(parsed.totalPages);
